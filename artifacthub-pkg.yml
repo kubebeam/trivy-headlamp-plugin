@@ -3,7 +3,7 @@ name: headlamp_trivy
 displayName: Trivy Headlamp Plugin
 createdAt: '2024-10-12T09:16:42Z'
 description: Trivy compliance and vulnerabilities in Headlamp.
-homeURL: https://github.com/Kubebeam/trivy-headlamp-plugin
+homeURL: https://github.com/kubebeam/trivy-headlamp-plugin
 logoURL: https://raw.githubusercontent.com/aquasecurity/trivy-docker-extension/refs/heads/main/trivy.svg
 links:
   - name: Headlamp
