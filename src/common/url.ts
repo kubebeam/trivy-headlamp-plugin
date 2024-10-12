@@ -6,7 +6,3 @@ export function getURLSegments(...indexes: number[]): string[] {
 
   return indexes.map(index => segments[segments.length + index]);
 }
-
-export function getLastURLSegment(): string {
-  return getURLSegments(-1)[0];
-}

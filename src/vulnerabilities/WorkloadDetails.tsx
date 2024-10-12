@@ -6,20 +6,20 @@ import {
   SectionBox,
   Table as HeadlampTable,
 } from '@kinvolk/headlamp-plugin/lib/CommonComponents';
-import { Link, MRT_Cell } from '@mui/material';
+import { Link } from '@mui/material';
 import React from 'react';
-import makeSeverityLabel from '../common/SeverityLabel';
+import { makeSeverityLabel } from '../common/SeverityLabel';
 import { getURLSegments } from '../common/url';
-import { vulnerabilityReportClass } from '../model';
-import { VulnerabilityReport } from '../trivy-types/VulnerabilityReport';
+import { vulnerabilityreportClass } from '../model';
+import { VulnerabilityReport } from '../types/VulnerabilityReport';
 import { getCVESummary } from './CVESummary';
 import { getImage } from './util';
 
-export default function TrivyVulnerabilityReportDetails() {
+export function VulnerabilityReportDetails() {
   const [name, namespace] = getURLSegments(-1, -2);
   const [vulnerabilityReportObject, setvulnerabilityReport] = React.useState(null);
 
-  vulnerabilityReportClass.useApiGet(setvulnerabilityReport, name, namespace);
+  vulnerabilityreportClass.useApiGet(setvulnerabilityReport, name, namespace);
 
   if (!vulnerabilityReportObject) {
     return <div></div>;
@@ -28,7 +28,7 @@ export default function TrivyVulnerabilityReportDetails() {
 
   return (
     <>
-      <SectionBox title="Vulnerability Report">
+      <SectionBox>
         <NameValueTable
           rows={[
             {
@@ -76,7 +76,7 @@ function Results(props: { vulnerabilityReport: VulnerabilityReport }) {
   const results = vulnerabilityReport.report.vulnerabilities;
 
   if (results) {
-    results.sort((a, b) => b.score - a.score);
+    results.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
   }
 
   return (
@@ -86,43 +86,43 @@ function Results(props: { vulnerabilityReport: VulnerabilityReport }) {
         columns={[
           {
             header: 'CVE',
-            Cell: ({ cell }: { cell: MRT_Cell }) => (
-              <Link target="_blank" href={cell.row.original.primaryLink}>
+            accessorKey: 'vulnerabilityID',
+            Cell: ({ cell, row }: any) => (
+              <Link target="_blank" href={row.original.primaryLink}>
                 {cell.getValue()}
               </Link>
             ),
-            accessorFn: (item: VulnerabilityReport.Vulnerability) => item.vulnerabilityID,
             gridTemplate: 'auto',
           },
           {
             header: 'Artifact',
-            accessorFn: (item: VulnerabilityReport.Vulnerability) => item.resource,
+            accessorKey: 'resource',
             gridTemplate: 'auto',
           },
           {
             header: 'Version',
-            accessorFn: (item: VulnerabilityReport.Vulnerability) => item.installedVersion,
+            accessorKey: 'installedVersion',
             gridTemplate: 'min-content',
           },
           {
             header: 'Severity',
-            accessorFn: (item: VulnerabilityReport.Vulnerability) =>
-              makeSeverityLabel(item.severity),
+            accessorKey: 'severity',
+            Cell: ({ cell }: any) => makeSeverityLabel(cell.getValue()),
             gridTemplate: 'min-content',
           },
           {
-            header: 'Severity',
-            accessorFn: (item: VulnerabilityReport.Vulnerability) => item.score,
+            header: 'Score',
+            accessorKey: 'score',
             gridTemplate: 'min-content',
           },
           {
             header: 'Fix in version',
-            accessorFn: (item: VulnerabilityReport.Vulnerability) => item.fixedVersion,
+            accessorKey: 'fixedVersion',
             gridTemplate: 'auto',
           },
           {
             header: 'Description',
-            accessorFn: (item: VulnerabilityReport.Vulnerability) => item.title,
+            accessorKey: 'title',
           },
         ]}
       />

@@ -2,11 +2,12 @@
   Build a horizontack stack with seperate cells for critical, high, medium, low, none and unknown. 
 */
 import { Box, Stack, Tooltip } from '@mui/material';
-import { VulnerabilityReport } from '../types/VulnerabilityReport';
+import { ConfigAuditReportReportSummary } from '../types/ConfigAuditReportReportSummary';
 
-export function getCVESummary(vulnerabilityReport: VulnerabilityReport) {
-  const summary = vulnerabilityReport.report.summary;
-
+export function getControlSummary(summary: ConfigAuditReportReportSummary | undefined) {
+  if (!summary) {
+    return;
+  }
   function box(color: string, severity: string, countScan: number) {
     return (
       <Box
@@ -33,8 +34,6 @@ export function getCVESummary(vulnerabilityReport: VulnerabilityReport) {
       {box('red', 'High', summary.highCount)}
       {box('orange', 'Medium', summary.mediumCount)}
       {box('yellow', 'Low', summary.lowCount)}
-      {box('darkgray', 'None', summary.noneCount ?? 0)}
-      {box('lightgray', 'Unknown', summary.unknownCount)}
     </Stack>
   );
 }

@@ -7,22 +7,23 @@ import {
   SectionBox,
   Table as HeadlampTable,
 } from '@kinvolk/headlamp-plugin/lib/CommonComponents';
-import { Box, MRT_Cell, Stack, Tooltip } from '@mui/material';
+import { Box, Stack, Tooltip } from '@mui/material';
+import { makeNamespaceLink } from '../common/NamespaceLink';
 import { RoutingPath } from '../index';
-import { VulnerabilityReport } from '../trivy-types/VulnerabilityReport';
+import { VulnerabilityReport } from '../types/VulnerabilityReport';
 import { getImage } from './util';
 
 export default function ResourceView(props: { vulnerabilityReports: VulnerabilityReport[] }) {
   const { vulnerabilityReports } = props;
 
   return (
-    <SectionBox title="Vulnerability Reports">
+    <SectionBox>
       <HeadlampTable
         data={vulnerabilityReports}
         columns={[
           {
             header: 'Name',
-            Cell: ({ cell }: { cell: MRT_Cell }) => (
+            Cell: ({ cell }: any) => (
               <HeadlampLink
                 routeName={RoutingPath.TrivyVulnerabilityReportDetails}
                 params={{
@@ -51,16 +52,8 @@ export default function ResourceView(props: { vulnerabilityReports: Vulnerabilit
           },
           {
             header: 'Namespace',
-            accessorFn: (r: VulnerabilityReport) => (
-              <HeadlampLink
-                routeName="namespace"
-                params={{
-                  name: r.metadata.namespace,
-                }}
-              >
-                {r.metadata.namespace}
-              </HeadlampLink>
-            ),
+            accessorKey: 'metadata.namespace',
+            Cell: ({ cell }: any) => makeNamespaceLink(cell.getValue()),
             gridTemplate: 'auto',
           },
           {
@@ -74,7 +67,7 @@ export default function ResourceView(props: { vulnerabilityReports: Vulnerabilit
           {
             header: 'Age',
             accessorFn: (r: VulnerabilityReport) => (
-              <DateLabel date={r.metadata.creationTimestamp} />
+              <DateLabel date={r.metadata.creationTimestamp ?? ''} />
             ),
             gridTemplate: 'min-content',
           },

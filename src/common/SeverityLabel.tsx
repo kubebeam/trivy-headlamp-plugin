@@ -4,7 +4,7 @@
 import { StatusLabel, StatusLabelProps } from '@kinvolk/headlamp-plugin/lib/CommonComponents';
 import { Box } from '@mui/material';
 
-export default function makeSeverityLabel(severity: string) {
+export function makeSeverityLabel(severity: string) {
   let status: StatusLabelProps['status'] = '';
 
   if (severity.toLowerCase() === 'critical') {

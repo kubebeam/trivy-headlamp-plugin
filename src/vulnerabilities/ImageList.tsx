@@ -8,10 +8,11 @@ import {
   Table as HeadlampTable,
 } from '@kinvolk/headlamp-plugin/lib/CommonComponents';
 import { Box, Stack, Tooltip } from '@mui/material';
-import { VulnerabilityReport } from '../trivy-types/VulnerabilityReport';
+import { VulnerabilityReport } from '../types/index';
+import { VulnerabilityReportReportVulnerabilities } from '../types/VulnerabilityReportReportVulnerabilities';
 
 interface ImageScan {
-  creationTimestamp: string;
+  creationTimestamp: string | undefined;
   artifact: string;
   workloads: Set<string>;
   vulnerabilityReports: VulnerabilityReport[];
@@ -33,8 +34,8 @@ export default function ImageListView(props: { vulnerabilityReports: Vulnerabili
           columns={[
             {
               header: 'Image',
-              accessorFn: (imageScan: ImageScan) => imageScan.artifact,
-              Cell: ({ cell }: { cell: any }) => (
+              accessorKey: 'artifact',
+              Cell: ({ cell }: any) => (
                 <HeadlampLink
                   routeName={''}
                   params={{
@@ -48,10 +49,11 @@ export default function ImageListView(props: { vulnerabilityReports: Vulnerabili
             },
             {
               header: 'Workload',
-              accessorFn: (imageScan: ImageScan) => {
+              accessorKey: 'workloads',
+              Cell: ({ cell }: any) => {
                 return (
                   <div style={{ whiteSpace: 'pre-line' }}>
-                    {Array.from(imageScan.workloads).join('\n')}
+                    {Array.from(cell.getValue()).join('\n')}
                   </div>
                 );
               },
@@ -60,7 +62,7 @@ export default function ImageListView(props: { vulnerabilityReports: Vulnerabili
             {
               header: 'Last scan',
               accessorFn: (imageScan: ImageScan) => (
-                <DateLabel date={imageScan.creationTimestamp} />
+                <DateLabel date={imageScan.creationTimestamp ?? ''} />
               ),
               gridTemplate: 'max-content',
             },
@@ -81,7 +83,9 @@ function getImageScans(vulnerabilityReports: VulnerabilityReport[]): ImageScan[]
   vulnerabilityReports.map((report: VulnerabilityReport) => {
     const artifact = `${report.report.artifact.repository}:${report.report.artifact.tag}`;
     const imageScan = imageScans.get(artifact);
-    const workloadName = report.metadata.labels['trivy-operator.resource.name'];
+    const workloadName = report.metadata.labels
+      ? report.metadata.labels['trivy-operator.resource.name']
+      : '';
     if (imageScan) {
       imageScan.workloads.add(workloadName);
       imageScan.vulnerabilityReports.push(report);
@@ -101,7 +105,7 @@ function getImageScans(vulnerabilityReports: VulnerabilityReport[]): ImageScan[]
 }
 
 function resultStack(imageScan: ImageScan) {
-  const vulnerabilitiesMap = new Map<string, VulnerabilityReport.Vulnerability>();
+  const vulnerabilitiesMap = new Map<string, VulnerabilityReportReportVulnerabilities>();
   for (const v of imageScan.vulnerabilityReports.flatMap(r => r.report.vulnerabilities)) {
     vulnerabilitiesMap.set(v.vulnerabilityID, v);
   }
@@ -137,7 +141,7 @@ function resultStack(imageScan: ImageScan) {
   );
 }
 
-function cveList(vulnerabilities: VulnerabilityReport.Vulnerability[], severity: string) {
+function cveList(vulnerabilities: VulnerabilityReportReportVulnerabilities[], severity: string) {
   const cves = vulnerabilities
     .filter(v => v.severity.toLowerCase() === severity.toLowerCase())
     .map(v => v.vulnerabilityID);
