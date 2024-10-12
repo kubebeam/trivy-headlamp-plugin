@@ -8,10 +8,13 @@ import {
   Table as HeadlampTable,
 } from '@kinvolk/headlamp-plugin/lib/CommonComponents';
 import { Box, Stack, Tooltip } from '@mui/material';
+import { RoutingPath } from '../index';
 import { VulnerabilityReport } from '../types/index';
 import { VulnerabilityReportReportVulnerabilities } from '../types/VulnerabilityReportReportVulnerabilities';
 
 interface ImageScan {
+  name: string;
+  namespace: string;
   creationTimestamp: string | undefined;
   artifact: string;
   workloads: Set<string>;
@@ -35,17 +38,17 @@ export default function ImageListView(props: { vulnerabilityReports: Vulnerabili
             {
               header: 'Image',
               accessorKey: 'artifact',
-              Cell: ({ cell }: any) => (
+              Cell: ({ cell, row }: any) => (
                 <HeadlampLink
-                  routeName={''}
+                  routeName={RoutingPath.TrivyVulnerabilityReportDetails}
                   params={{
-                    name: cell.getValue(),
+                    name: row.original.name,
+                    namespace: row.original.namespace,
                   }}
                 >
                   {cell.getValue()}
                 </HeadlampLink>
               ),
-              gridTemplate: 'max-content',
             },
             {
               header: 'Workload',
@@ -57,7 +60,6 @@ export default function ImageListView(props: { vulnerabilityReports: Vulnerabili
                   </div>
                 );
               },
-              gridTemplate: 'max-content',
             },
             {
               header: 'Last scan',
@@ -69,6 +71,21 @@ export default function ImageListView(props: { vulnerabilityReports: Vulnerabili
             {
               header: 'Vulnerabilities',
               accessorFn: (imageScan: ImageScan) => resultStack(imageScan),
+            },
+            {
+              header: 'SBOM',
+              Cell: ({ row }: any) => (
+                <HeadlampLink
+                  routeName={RoutingPath.SbomReportDetail}
+                  params={{
+                    name: row.original.name,
+                    namespace: row.original.namespace,
+                  }}
+                >
+                  SBOM
+                </HeadlampLink>
+              ),
+              gridTemplate: 'min-content',
             },
           ]}
         />
@@ -90,12 +107,12 @@ function getImageScans(vulnerabilityReports: VulnerabilityReport[]): ImageScan[]
       imageScan.workloads.add(workloadName);
       imageScan.vulnerabilityReports.push(report);
     } else {
-      const workloads = new Set<string>();
-      workloads.add(workloadName);
       imageScans.set(artifact, {
+        name: report.metadata.name,
+        namespace: report.metadata.namespace,
         creationTimestamp: report.metadata.creationTimestamp,
         artifact: artifact,
-        workloads: workloads,
+        workloads: new Set<string>([workloadName]),
         vulnerabilityReports: [report],
       });
     }

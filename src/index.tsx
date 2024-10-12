@@ -1,7 +1,7 @@
 import { registerRoute, registerSidebarEntry } from '@kinvolk/headlamp-plugin/lib';
 
 export namespace RoutingPath {
-  export const TrivyVulnerabilityReportDetails = '/trivy/vulnerabilityreports/:namespace/:name';
+  export const TrivyVulnerabilityReportDetails = '/trivy/vulnerabilities/:namespace/:name';
   export const Compliance = '/trivy/compliance';
   export const ClusterComplianceReportDetail = '/trivy/clustercompliance/:name';
   export const ConfigAuditReportList = '/trivy/configaudit';
@@ -10,6 +10,10 @@ export namespace RoutingPath {
   export const SbomReportDetail = '/trivy/sbom/:namespace/:name';
   export const ExposedSecretDetails = '/trivy/secrets/:namespace/:name';
   export const ExposedSecretList = '/trivy/secrets';
+  export const ControlResults = '/trivy/compliance/:control';
+  export const ImageVulnerabilityDetails = '/trivy/images/:namespace/:name';
+  export const InfraAssessmentReportDetail = '/trivy/infra/:namespace/:name';
+  export const RbacAssessmentReportDetail = '/trivy/rbac/:namespace/:name';
 }
 
 // Trivy main sidebar
@@ -18,7 +22,7 @@ registerSidebarEntry({
   name: 'trivy',
   label: 'Trivy',
   icon: 'mdi:yeast',
-  url: '/trivy/vulnerabilities',
+  url: RoutingPath.Compliance,
 });
 
 registerSidebarEntry({
@@ -46,6 +50,72 @@ registerRoute({
   name: 'Compliance',
 });
 
+import { ClusterComplianceDetails } from './compliance/ClusterComplianceDetails';
+
+registerRoute({
+  path: RoutingPath.ClusterComplianceReportDetail,
+  parent: 'trivy',
+  sidebar: 'trivy-compliance',
+  component: () => <ClusterComplianceDetails />,
+  exact: true,
+  name: 'Cluster Compliance',
+});
+
+import { ControlResults } from './compliance/ControlResults';
+
+registerRoute({
+  path: RoutingPath.ControlResults,
+  parent: 'trivy',
+  sidebar: 'trivy-compliance',
+  component: () => <ControlResults />,
+  exact: true,
+  name: 'Control Results',
+});
+
+import { InfraAssessmentDetails } from './compliance/InfraAssessmentDetails';
+
+registerRoute({
+  path: RoutingPath.InfraAssessmentReportDetail,
+  parent: 'trivy',
+  sidebar: 'trivy-compliance',
+  component: () => <InfraAssessmentDetails />,
+  exact: true,
+  name: 'Infra Assessment',
+});
+
+import { RbacAssessmentDetails } from './compliance/RbacAssessmentDetails';
+
+registerRoute({
+  path: RoutingPath.RbacAssessmentReportDetail,
+  parent: 'trivy',
+  sidebar: 'trivy-compliance',
+  component: () => <RbacAssessmentDetails />,
+  exact: true,
+  name: 'RBAC Assessment',
+});
+
+import { ConfigAuditReportDetails } from './compliance/ConfigAuditDetails';
+
+registerRoute({
+  path: RoutingPath.ConfigAuditReportDetail,
+  parent: 'trivy',
+  sidebar: 'trivy-compliance',
+  component: () => <ConfigAuditReportDetails />,
+  exact: true,
+  name: 'Config Audit',
+});
+
+import { ExposedSecretDetails } from './compliance/ExposedSecretDetails';
+
+registerRoute({
+  path: RoutingPath.ExposedSecretDetails,
+  parent: 'trivy',
+  sidebar: 'trivy-compliance',
+  component: () => <ExposedSecretDetails />,
+  exact: true,
+  name: 'Exposed Secret',
+});
+
 import { VulnerabilityList } from './vulnerabilities/Vulnerabilities';
 
 registerRoute({
@@ -68,26 +138,15 @@ registerRoute({
   name: 'Vulnerability Report',
 });
 
-import { ClusterComplianceDetails } from './compliance/ClusterComplianceDetails';
+import { ImageVulnerabilityDetails } from './vulnerabilities/ImageDetails';
 
 registerRoute({
-  path: RoutingPath.ClusterComplianceReportDetail,
+  path: RoutingPath.ImageVulnerabilityDetails,
   parent: 'trivy',
-  sidebar: 'trivy-compliance',
-  component: () => <ClusterComplianceDetails />,
+  sidebar: 'trivy-vulnerabilities',
+  component: () => <ImageVulnerabilityDetails />,
   exact: true,
-  name: 'Cluster Compliance',
-});
-
-import { ConfigAuditReportDetails } from './compliance/ConfigAuditDetails';
-
-registerRoute({
-  path: RoutingPath.ConfigAuditReportDetail,
-  parent: 'trivy',
-  sidebar: 'trivy-configaudit',
-  component: () => <ConfigAuditReportDetails />,
-  exact: true,
-  name: 'Config Audit',
+  name: 'Image Vulnerabilities',
 });
 
 import { SbomReportDetails } from './vulnerabilities/SBOMDetails';
@@ -95,19 +154,8 @@ import { SbomReportDetails } from './vulnerabilities/SBOMDetails';
 registerRoute({
   path: RoutingPath.SbomReportDetail,
   parent: 'trivy',
-  sidebar: 'trivy-sbom',
+  sidebar: 'trivy-vulnerabilities',
   component: () => <SbomReportDetails />,
   exact: true,
   name: 'SBOM list',
-});
-
-import { ExposedSecretDetails } from './compliance/ExposedSecretDetails';
-
-registerRoute({
-  path: RoutingPath.ExposedSecretDetails,
-  parent: 'trivy',
-  sidebar: 'trivy-sbom',
-  component: () => <ExposedSecretDetails />,
-  exact: true,
-  name: 'Exposed Secret',
 });

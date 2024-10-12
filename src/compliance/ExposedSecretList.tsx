@@ -30,8 +30,7 @@ export function ExposedSecretList() {
 
   return (
     <>
-      <p>Showing reports for exposed secrets</p>
-      <SectionBox>
+      <SectionBox title="Exposed Secrets">
         <HeadlampTable
           data={filteredSecretReports}
           columns={[

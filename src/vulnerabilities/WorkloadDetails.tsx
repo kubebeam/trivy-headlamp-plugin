@@ -85,6 +85,12 @@ function Results(props: { vulnerabilityReport: VulnerabilityReport }) {
         data={results}
         columns={[
           {
+            header: 'Severity',
+            accessorKey: 'severity',
+            Cell: ({ cell }: any) => makeSeverityLabel(cell.getValue()),
+            gridTemplate: 'min-content',
+          },
+          {
             header: 'CVE',
             accessorKey: 'vulnerabilityID',
             Cell: ({ cell, row }: any) => (
@@ -105,12 +111,6 @@ function Results(props: { vulnerabilityReport: VulnerabilityReport }) {
             gridTemplate: 'min-content',
           },
           {
-            header: 'Severity',
-            accessorKey: 'severity',
-            Cell: ({ cell }: any) => makeSeverityLabel(cell.getValue()),
-            gridTemplate: 'min-content',
-          },
-          {
             header: 'Score',
             accessorKey: 'score',
             gridTemplate: 'min-content',
@@ -125,6 +125,14 @@ function Results(props: { vulnerabilityReport: VulnerabilityReport }) {
             accessorKey: 'title',
           },
         ]}
+        initialState={{
+          sorting: [
+            {
+              id: 'Score',
+              desc: true,
+            },
+          ],
+        }}
       />
     </SectionBox>
   );

@@ -2,19 +2,18 @@
   Overview page for vulnerability issues, workloads and images. 
 */
 import {
-  Link as HeadlampLink,
   SectionBox,
   Table as HeadlampTable,
   Tabs as HeadlampTabs,
 } from '@kinvolk/headlamp-plugin/lib/CommonComponents';
 import { KubeObject } from '@kinvolk/headlamp-plugin/lib/lib/k8s/cluster';
+import { Link } from '@mui/material';
 import { useState } from 'react';
 import { makeSeverityLabel } from '../common/SeverityLabel';
 import { vulnerabilityreportClass } from '../model';
 import { VulnerabilityReport } from '../types/VulnerabilityReport';
 import ImageListView from './ImageList';
 import ResourceView from './ResourceList';
-import { SbomReportList } from './SBOMList';
 import { getImage } from './util';
 
 export function VulnerabilityList() {
@@ -46,10 +45,6 @@ export function VulnerabilityList() {
             label: 'Images',
             component: <ImageListView vulnerabilityReports={vulnerabilityReports} />,
           },
-          {
-            label: 'SBOM',
-            component: <SbomReportList />,
-          },
         ]}
         ariaLabel="Navigation Tabs"
       />
@@ -66,6 +61,7 @@ interface CVEScan {
   score: number;
   severity: string;
   title?: string;
+  primaryLink?: string;
 }
 
 // flatten vulnerabilityReports into a list of CVEScan
@@ -95,6 +91,7 @@ function getCVEList(vulnerabilityReports: VulnerabilityReport[]): CVEScan[] {
           images: new Set<string>(),
           artifacts: new Set<string>(),
           fixed: vulnerability.fixedVersion !== '',
+          primaryLink: vulnerability.primaryLink,
         };
 
         newCVEScan.workloads.add(workloadName + '/' + workloadContainer);
@@ -105,11 +102,6 @@ function getCVEList(vulnerabilityReports: VulnerabilityReport[]): CVEScan[] {
       }
     }
   }
-
-  // default sort on score
-  cveScans.sort((a, b) => {
-    return b.score - a.score;
-  });
 
   return cveScans;
 }
@@ -129,24 +121,21 @@ function CVEListView(props: { vulnerabilityReports: VulnerabilityReport[] }) {
           data={cveList}
           columns={[
             {
-              header: 'CVE ID',
-              accessorKey: 'CVE',
-              Cell: ({ cell }: any) => {
-                return (
-                  <HeadlampLink routeName={''} params={{ cve: cell.getValue() }}>
-                    {cell.getValue()}
-                  </HeadlampLink>
-                );
-              },
-              gridTemplate: 'auto',
-            },
-            {
               header: 'Severity',
               accessorKey: 'severity',
               Cell: ({ cell }: any) => makeSeverityLabel(cell.row.original.severity),
               gridTemplate: '0.2fr',
             },
             {
+              header: 'CVE ID',
+              accessorKey: 'CVE',
+              Cell: ({ cell, row }: any) => {
+                return <Link href={row.original.primaryLink}>{cell.getValue()}</Link>;
+              },
+              gridTemplate: 'auto',
+            },
+            {
+              id: 'Score',
               header: 'CVSS',
               accessorKey: 'score',
               gridTemplate: 'min-content',
@@ -183,6 +172,14 @@ function CVEListView(props: { vulnerabilityReports: VulnerabilityReport[] }) {
               gridTemplate: 'auto',
             },
           ]}
+          initialState={{
+            sorting: [
+              {
+                id: 'Score',
+                desc: true,
+              },
+            ],
+          }}
         />
       </SectionBox>
     </>

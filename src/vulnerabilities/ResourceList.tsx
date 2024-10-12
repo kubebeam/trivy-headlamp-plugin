@@ -71,6 +71,21 @@ export default function ResourceView(props: { vulnerabilityReports: Vulnerabilit
             ),
             gridTemplate: 'min-content',
           },
+          {
+            header: 'SBOM',
+            Cell: ({ cell }: any) => (
+              <HeadlampLink
+                routeName={RoutingPath.SbomReportDetail}
+                params={{
+                  name: cell.row.original.metadata.name,
+                  namespace: cell.row.original.metadata.namespace,
+                }}
+              >
+                SBOM
+              </HeadlampLink>
+            ),
+            gridTemplate: 'min-content',
+          },
         ]}
       />
     </SectionBox>

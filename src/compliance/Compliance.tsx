@@ -2,6 +2,8 @@ import { Tabs as HeadlampTabs } from '@kinvolk/headlamp-plugin/lib/CommonCompone
 import { ClusterComplianceReportList } from './ClusterComplianceList';
 import { ConfigAuditReportList } from './ConfigAuditList';
 import { ExposedSecretList } from './ExposedSecretList';
+import { InfraAssessmentReportList } from './InfraAssessmentList';
+import { RbacAssessmentReportList } from './RbacAssessmentList';
 
 export function Compliance() {
   return (
@@ -14,8 +16,16 @@ export function Compliance() {
             component: <ClusterComplianceReportList />,
           },
           {
+            label: 'Infra',
+            component: <InfraAssessmentReportList />,
+          },
+          {
             label: 'Resources',
             component: <ConfigAuditReportList />,
+          },
+          {
+            label: 'RBAC',
+            component: <RbacAssessmentReportList />,
           },
           {
             label: 'Secrets',

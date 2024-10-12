@@ -25,7 +25,7 @@ export function ConfigAuditReportDetails() {
 
   return (
     <>
-      <SectionBox>
+      <SectionBox title="Configuration Audit">
         <NameValueTable
           rows={[
             {
@@ -51,15 +51,20 @@ export function ConfigAuditReportDetails() {
 function Results(props: { configAuditReport: ConfigAuditReport }) {
   const { configAuditReport } = props;
 
+  // trivy config reports contain duplicates (is this a bug?)
+  const uniqueResultsMap = new Map<string, ConfigAuditReportReportChecks>();
+  configAuditReport.report.checks.map(r => uniqueResultsMap.set(r.checkID, r));
+
   return (
     <>
       <SectionBox title="Results">
         <HeadlampTable
-          data={configAuditReport.report.checks}
+          data={Array.from(uniqueResultsMap.values())}
           columns={[
             {
-              header: 'Success',
-              accessorFn: (check: ConfigAuditReportReportChecks) => (check.success ? 'Yes' : 'No'),
+              header: 'Status',
+              accessorFn: (check: ConfigAuditReportReportChecks) =>
+                check.success ? 'Pass' : 'Failed',
               gridTemplate: 'min-content',
             },
             {
@@ -88,14 +93,6 @@ function Results(props: { configAuditReport: ConfigAuditReport }) {
               header: 'Remediation',
               accessorKey: 'remediation',
             },
-            // {
-            //   header: 'Scope',
-            //   accessorFn: (check: ConfigAuditReportReportChecks) => {
-            //     if (check.scope) {
-            //       return `${check.scope.type}:${check.scope.value}`;
-            //     }
-            //   },
-            // },
           ]}
         />
       </SectionBox>

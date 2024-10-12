@@ -25,7 +25,7 @@ export function SbomReportDetails() {
 
   return (
     <>
-      <SectionBox>
+      <SectionBox title="SBOM">
         <NameValueTable
           rows={[
             {

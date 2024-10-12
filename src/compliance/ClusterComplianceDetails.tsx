@@ -1,4 +1,5 @@
 import {
+  Link as HeadlampLink,
   NameValueTable,
   SectionBox,
   Table as HeadlampTable,
@@ -7,6 +8,7 @@ import { KubeObject } from '@kinvolk/headlamp-plugin/lib/lib/k8s/cluster';
 import { FormControlLabel, Switch } from '@mui/material';
 import { useState } from 'react';
 import { getURLSegments } from '../common/url';
+import { RoutingPath } from '../index';
 import { clustercompliancereportClass } from '../model';
 import { ClusterComplianceReport } from '../types/ClusterComplianceReport';
 import { ClusterComplianceReportSpecComplianceControls } from '../types/ClusterComplianceReportSpecComplianceControls';
@@ -27,7 +29,7 @@ export function ClusterComplianceDetails() {
 
   return (
     <>
-      <SectionBox>
+      <SectionBox title={name}>
         <NameValueTable
           rows={[
             {
@@ -39,24 +41,12 @@ export function ClusterComplianceDetails() {
               value: clusterComplianceReport.spec?.compliance.description,
             },
             {
-              name: 'ID',
-              value: clusterComplianceReport.spec?.compliance.id,
+              name: 'Version',
+              value: clusterComplianceReport.spec?.compliance.version,
             },
             {
               name: 'Platform',
               value: clusterComplianceReport.spec?.compliance.platform,
-            },
-            {
-              name: 'Title',
-              value: clusterComplianceReport.spec?.compliance.title,
-            },
-            {
-              name: 'Type',
-              value: clusterComplianceReport.spec?.compliance.type,
-            },
-            {
-              name: 'Version',
-              value: clusterComplianceReport.spec?.compliance.version,
             },
             {
               name: 'Related Resources',
@@ -99,6 +89,29 @@ function Results(props: { clusterComplianceReport: ClusterComplianceReport }) {
             {
               header: 'Name',
               accessorKey: 'name',
+              gridTemplate: 'auto',
+            },
+            {
+              header: 'Checks',
+              accessorFn: (control: ClusterComplianceReportSpecComplianceControls) => {
+                const controlDef = clusterComplianceReport.spec?.compliance.controls.find(
+                  element => element.id === control.id
+                );
+                return controlDef?.checks?.map(check => check.id);
+              },
+              Cell: ({ cell }: any) => {
+                const checks: string[] = cell.getValue();
+                if (checks) {
+                  return checks.map(check => (
+                    <HeadlampLink
+                      routeName={RoutingPath.ControlResults}
+                      params={{ control: check }}
+                    >
+                      {check}
+                    </HeadlampLink>
+                  ));
+                }
+              },
               gridTemplate: 'auto',
             },
             {

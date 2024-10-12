@@ -81,18 +81,12 @@ function Secrets(props: { exposedSecretReport: ExposedSecretReport }) {
           data={exposedSecretReport.report.secrets}
           columns={[
             {
-              header: 'Category',
-              accessorKey: 'category',
-            },
-            // {
-            //   header: 'Match',
-            //   accessorKey: 'match',
-            //   gridTemplate: 'min-content',
-            // },
-            {
               header: 'Rule ID',
               accessorKey: 'ruleID',
-              gridTemplate: 'min-content',
+            },
+            {
+              header: 'Category',
+              accessorKey: 'category',
             },
             {
               header: 'Severity',
@@ -102,12 +96,10 @@ function Secrets(props: { exposedSecretReport: ExposedSecretReport }) {
             {
               header: 'Target',
               accessorKey: 'target',
-              gridTemplate: 'min-content',
             },
             {
               header: 'Title',
               accessorKey: 'title',
-              gridTemplate: 'min-content',
             },
           ]}
         />
