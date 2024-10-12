@@ -1,0 +1,93 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      releaseName:
+        description: 'Name for this release (with the v prefix)'
+        required: true
+        default: 'v0.0.0'
+
+permissions:
+  contents: read
+
+env:
+  RELEASE_DATE: '' # calculated in action release date
+  RELEASE_TAR: ${{ github.event.repository.name }}-${{ github.event.inputs.releaseName }}.tar.gz
+  CHECKSUM: '' # calculated in action create-checksum
+
+jobs:
+  build:
+    permissions:
+      contents: write
+    name: Create Release
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./
+
+    strategy:
+      matrix:
+        node-version: [21.x]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - run: npm ci
+
+      - run: npx @kinvolk/headlamp-plugin build .
+
+      - name: release date
+        run: echo "RELEASE_DATE=$(date +'%Y-%m-%dT%H:%M:%SZ')" >> ${GITHUB_ENV}
+
+      - name: Update package.json
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: package.json
+          propertyPath: version
+          value: '${{ github.event.inputs.releaseName }}'
+          commitChange: false
+
+      - name: create-archive
+        run: |
+          mkdir -p trivy-plugin
+          cp dist/main.js package.json trivy-plugin
+          tar -czf ${RELEASE_TAR} trivy-plugin
+
+      - name: create-checksum
+        run: echo "CHECKSUM=$(sha256sum ${RELEASE_TAR} | cut -d' ' -f1)" >> ${GITHUB_ENV}
+
+      - name: Update artifacthub-pkg.yml
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: artifacthub-pkg.yml
+          changes: |
+            {
+              "version": "${{ github.event.inputs.releaseName }}",
+              "createdAt": "${{ env.RELEASE_DATE }}",
+              "annotations[\"headlamp/plugin/archive-url\"]": "https://github.com/${{ github.repository }}/releases/download/${{ github.event.inputs.releaseName }}/${{ env.RELEASE_TAR }}", 
+              "annotations[\"headlamp/plugin/archive-checksum\"]": "SHA256:${{ env.CHECKSUM }}"
+            }
+          commitChange: false
+
+      - name: Commit artifacthub-pkg.yml
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: Release ${{ github.event.inputs.releaseName }}
+          add: |
+            - artifacthub-pkg.yml
+            - package.json
+
+      - name: Create Release Draft
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.releaseName }}
+          prerelease: true
+          files: ${{ env.RELEASE_TAR }}
+          token: ${{ github.token }}
