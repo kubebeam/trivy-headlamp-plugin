@@ -28,7 +28,7 @@ export default function ResourceView(props: { vulnerabilityReports: Vulnerabilit
                 routeName={RoutingPath.TrivyVulnerabilityReportDetails}
                 params={{
                   name: cell.row.original.metadata.name,
-                  namespace: cell.row.original.metadata.namespace,
+                  namespace: cell.row.original.metadata.namespace ?? '-',
                 }}
               >
                 {cell.getValue()}
@@ -52,7 +52,7 @@ export default function ResourceView(props: { vulnerabilityReports: Vulnerabilit
           },
           {
             header: 'Namespace',
-            accessorKey: 'metadata.namespace',
+            accessorFn: (r: VulnerabilityReport) => r.metadata.namespace,
             Cell: ({ cell }: any) => makeNamespaceLink(cell.getValue()),
             gridTemplate: 'auto',
           },
@@ -73,12 +73,14 @@ export default function ResourceView(props: { vulnerabilityReports: Vulnerabilit
           },
           {
             header: 'SBOM',
-            Cell: ({ cell }: any) => (
+            Cell: ({ row }: any) => (
               <HeadlampLink
                 routeName={RoutingPath.SbomReportDetail}
                 params={{
-                  name: cell.row.original.metadata.name,
-                  namespace: cell.row.original.metadata.namespace,
+                  name: row.original.metadata.namespace
+                    ? row.original.metadata.name
+                    : row.original.metadata.labels['trivy-operator.resource.name'],
+                  namespace: row.original.metadata.namespace ?? '-',
                 }}
               >
                 SBOM

@@ -39,7 +39,7 @@ export function ConfigAuditReportList() {
                     routeName={RoutingPath.ConfigAuditReportDetail}
                     params={{
                       name: row.original.metadata.name,
-                      namespace: row.original.metadata.namespace,
+                      namespace: row.original.metadata.namespace ?? '-',
                     }}
                   >
                     {cell.getValue()}

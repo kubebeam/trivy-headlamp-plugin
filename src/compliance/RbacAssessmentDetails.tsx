@@ -6,7 +6,7 @@ import {
 import { KubeObject } from '@kinvolk/headlamp-plugin/lib/lib/k8s/cluster';
 import { useState } from 'react';
 import { getURLSegments } from '../common/url';
-import { rbacassessmentreportClass } from '../model';
+import { clusterrbacassessmentreportClass, rbacassessmentreportClass } from '../model';
 import { RbacAssessmentReport } from '../types/RbacAssessmentReport';
 import { getRBACResource } from './RbacAssessmentList';
 
@@ -15,7 +15,9 @@ export function RbacAssessmentDetails() {
 
   const [rbacAssessmentReportObject, setRbacAssessmentReportObject] = useState<KubeObject>(null);
 
-  rbacassessmentreportClass.useApiGet(setRbacAssessmentReportObject, name, namespace);
+  if (namespace === '-')
+    clusterrbacassessmentreportClass.useApiGet(setRbacAssessmentReportObject, name);
+  else rbacassessmentreportClass.useApiGet(setRbacAssessmentReportObject, name, namespace);
 
   if (!rbacAssessmentReportObject) {
     return <div></div>;

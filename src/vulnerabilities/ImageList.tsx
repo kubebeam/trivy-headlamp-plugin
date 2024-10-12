@@ -9,13 +9,15 @@ import {
 } from '@kinvolk/headlamp-plugin/lib/CommonComponents';
 import { Box, Stack, Tooltip } from '@mui/material';
 import { RoutingPath } from '../index';
-import { VulnerabilityReport } from '../types/index';
+import { VulnerabilityReport } from '../types/VulnerabilityReport';
 import { VulnerabilityReportReportVulnerabilities } from '../types/VulnerabilityReportReportVulnerabilities';
 
 interface ImageScan {
-  name: string;
-  namespace: string;
-  creationTimestamp: string | undefined;
+  metadata: {
+    name?: string;
+    namespace?: string;
+    creationTimestamp?: string | undefined;
+  };
   artifact: string;
   workloads: Set<string>;
   vulnerabilityReports: VulnerabilityReport[];
@@ -42,8 +44,8 @@ export default function ImageListView(props: { vulnerabilityReports: Vulnerabili
                 <HeadlampLink
                   routeName={RoutingPath.TrivyVulnerabilityReportDetails}
                   params={{
-                    name: row.original.name,
-                    namespace: row.original.namespace,
+                    name: row.original.metadata.name,
+                    namespace: row.original.metadata.namespace ?? '-',
                   }}
                 >
                   {cell.getValue()}
@@ -62,9 +64,14 @@ export default function ImageListView(props: { vulnerabilityReports: Vulnerabili
               },
             },
             {
+              header: 'Namespace',
+              accessorFn: (imageScan: ImageScan) => imageScan.metadata.namespace,
+              gridTemplate: 'max-content',
+            },
+            {
               header: 'Last scan',
               accessorFn: (imageScan: ImageScan) => (
-                <DateLabel date={imageScan.creationTimestamp ?? ''} />
+                <DateLabel date={imageScan.metadata.creationTimestamp ?? ''} />
               ),
               gridTemplate: 'max-content',
             },
@@ -78,8 +85,10 @@ export default function ImageListView(props: { vulnerabilityReports: Vulnerabili
                 <HeadlampLink
                   routeName={RoutingPath.SbomReportDetail}
                   params={{
-                    name: row.original.name,
-                    namespace: row.original.namespace,
+                    name: row.original.metadata.namespace
+                      ? row.original.metadata.name
+                      : row.original.metadata.labels['trivy-operator.resource.name'],
+                    namespace: row.original.metadata.namespace ?? '-',
                   }}
                 >
                   SBOM
@@ -108,9 +117,7 @@ function getImageScans(vulnerabilityReports: VulnerabilityReport[]): ImageScan[]
       imageScan.vulnerabilityReports.push(report);
     } else {
       imageScans.set(artifact, {
-        name: report.metadata.name,
-        namespace: report.metadata.namespace,
-        creationTimestamp: report.metadata.creationTimestamp,
+        metadata: report.metadata,
         artifact: artifact,
         workloads: new Set<string>([workloadName]),
         vulnerabilityReports: [report],

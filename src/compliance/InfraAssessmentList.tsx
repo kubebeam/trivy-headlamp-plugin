@@ -7,22 +7,25 @@ import { KubeObject } from '@kinvolk/headlamp-plugin/lib/lib/k8s/cluster';
 import { useState } from 'react';
 import { getControlSummary } from '../common/ControlSummary';
 import { RoutingPath } from '../index';
-import { infraassessmentreportClass } from '../model';
+import { clusterinfraassessmentreportClass, infraassessmentreportClass } from '../model';
 import { InfraAssessmentReport } from '../types/InfraAssessmentReport';
 
 export function InfraAssessmentReportList() {
   const [infraAssessmentReportObjects, setInfraAssessmentReportObjects] =
     useState<KubeObject>(null);
+  const [clusterInfraAssessmentReportObjects, setClusterInfraAssessmentReportObjects] =
+    useState<KubeObject>(null);
 
   infraassessmentreportClass.useApiList(setInfraAssessmentReportObjects);
+  clusterinfraassessmentreportClass.useApiList(setClusterInfraAssessmentReportObjects);
 
-  if (!infraAssessmentReportObjects) {
+  if (!infraAssessmentReportObjects || !clusterInfraAssessmentReportObjects) {
     return <div></div>;
   }
 
-  const infraAssessmentReports: InfraAssessmentReport[] = infraAssessmentReportObjects.map(
-    (object: KubeObject) => object.jsonData
-  );
+  const infraAssessmentReports: InfraAssessmentReport[] = clusterInfraAssessmentReportObjects
+    .concat(infraAssessmentReportObjects)
+    .map((object: KubeObject) => object.jsonData);
 
   return (
     <>
@@ -39,7 +42,7 @@ export function InfraAssessmentReportList() {
                     routeName={RoutingPath.InfraAssessmentReportDetail}
                     params={{
                       name: cell.getValue(),
-                      namespace: row.original.metadata.namespace,
+                      namespace: row.original.metadata.namespace ?? '-',
                     }}
                   >
                     {cell.getValue()}
@@ -47,6 +50,10 @@ export function InfraAssessmentReportList() {
                 );
               },
               gridTemplate: 'auto',
+            },
+            {
+              header: 'Namespace',
+              accessorKey: 'metadata.namespace',
             },
             {
               header: 'Results',

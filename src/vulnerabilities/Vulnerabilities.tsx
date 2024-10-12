@@ -10,24 +10,28 @@ import { KubeObject } from '@kinvolk/headlamp-plugin/lib/lib/k8s/cluster';
 import { Link } from '@mui/material';
 import { useState } from 'react';
 import { makeSeverityLabel } from '../common/SeverityLabel';
-import { vulnerabilityreportClass } from '../model';
+import { clustervulnerabilityreportClass, vulnerabilityreportClass } from '../model';
 import { VulnerabilityReport } from '../types/VulnerabilityReport';
 import ImageListView from './ImageList';
 import ResourceView from './ResourceList';
 import { getImage } from './util';
 
 export function VulnerabilityList() {
-  const [vulnerabilityReportObjects, setvulnerabilityReports] = useState<KubeObject>(null);
+  const [vulnerabilityReportObjects, setVulnerabilityReports] = useState<KubeObject>(null);
+  const [clusterVulnerabilityReportObjects, setClusterVulnerabilityReports] =
+    useState<KubeObject>(null);
 
-  vulnerabilityreportClass.useApiList(setvulnerabilityReports);
+  vulnerabilityreportClass.useApiList(setVulnerabilityReports);
+  clustervulnerabilityreportClass.useApiList(setClusterVulnerabilityReports);
 
-  if (!vulnerabilityReportObjects) {
+  if (!vulnerabilityReportObjects || !clusterVulnerabilityReportObjects) {
     return <div></div>;
   }
 
-  const vulnerabilityReports = vulnerabilityReportObjects.map(
-    (object: KubeObject) => object.jsonData
-  );
+  const vulnerabilityReports = clusterVulnerabilityReportObjects
+    .concat(vulnerabilityReportObjects)
+    .map((object: KubeObject) => object.jsonData);
+
   return (
     <>
       <h1>Vulnerabilities</h1>

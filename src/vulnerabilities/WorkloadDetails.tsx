@@ -10,7 +10,7 @@ import { Link } from '@mui/material';
 import React from 'react';
 import { makeSeverityLabel } from '../common/SeverityLabel';
 import { getURLSegments } from '../common/url';
-import { vulnerabilityreportClass } from '../model';
+import { clustervulnerabilityreportClass, vulnerabilityreportClass } from '../model';
 import { VulnerabilityReport } from '../types/VulnerabilityReport';
 import { getCVESummary } from './CVESummary';
 import { getImage } from './util';
@@ -19,7 +19,8 @@ export function VulnerabilityReportDetails() {
   const [name, namespace] = getURLSegments(-1, -2);
   const [vulnerabilityReportObject, setvulnerabilityReport] = React.useState(null);
 
-  vulnerabilityreportClass.useApiGet(setvulnerabilityReport, name, namespace);
+  if (namespace === '-') clustervulnerabilityreportClass.useApiGet(setvulnerabilityReport, name);
+  else vulnerabilityreportClass.useApiGet(setvulnerabilityReport, name, namespace);
 
   if (!vulnerabilityReportObject) {
     return <div></div>;

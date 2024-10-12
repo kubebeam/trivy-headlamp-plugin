@@ -7,7 +7,7 @@ import { KubeObject } from '@kinvolk/headlamp-plugin/lib/lib/k8s/cluster';
 import { FormControlLabel, Switch } from '@mui/material';
 import { useState } from 'react';
 import { getURLSegments } from '../common/url';
-import { infraassessmentreportClass } from '../model';
+import { clusterinfraassessmentreportClass, infraassessmentreportClass } from '../model';
 import { InfraAssessmentReport } from '../types/InfraAssessmentReport';
 
 export function InfraAssessmentDetails() {
@@ -15,7 +15,9 @@ export function InfraAssessmentDetails() {
 
   const [infraAssessmentReportObject, setInfraAssessmentReportObject] = useState<KubeObject>(null);
 
-  infraassessmentreportClass.useApiGet(setInfraAssessmentReportObject, name, namespace);
+  if (namespace === '-')
+    clusterinfraassessmentreportClass.useApiGet(setInfraAssessmentReportObject, name);
+  else infraassessmentreportClass.useApiGet(setInfraAssessmentReportObject, name, namespace);
 
   if (!infraAssessmentReportObject) {
     return <div></div>;

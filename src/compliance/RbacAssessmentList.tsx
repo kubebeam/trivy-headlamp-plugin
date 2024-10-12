@@ -8,22 +8,25 @@ import { FormControlLabel, Switch } from '@mui/material';
 import { useState } from 'react';
 import { getControlSummary } from '../common/ControlSummary';
 import { RoutingPath } from '../index';
-import { rbacassessmentreportClass } from '../model';
+import { clusterrbacassessmentreportClass, rbacassessmentreportClass } from '../model';
 import { RbacAssessmentReport } from '../types/RbacAssessmentReport';
 
 export function RbacAssessmentReportList() {
   const [rbacAssessmentReportObjects, setRbacAssessmentReportObjects] = useState<KubeObject>(null);
+  const [clusterRbacAssessmentReportObjects, setClusterRbacAssessmentReportObjects] =
+    useState<KubeObject>(null);
   const [isFailedControlSwitchChecked, setIsFailedControlSwitchChecked] = useState(true);
 
   rbacassessmentreportClass.useApiList(setRbacAssessmentReportObjects);
+  clusterrbacassessmentreportClass.useApiList(setClusterRbacAssessmentReportObjects);
 
-  if (!rbacAssessmentReportObjects) {
+  if (!rbacAssessmentReportObjects || !clusterRbacAssessmentReportObjects) {
     return <div></div>;
   }
 
-  const rbacAssessmentReports: RbacAssessmentReport[] = rbacAssessmentReportObjects.map(
-    (object: KubeObject) => object.jsonData
-  );
+  const rbacAssessmentReports: RbacAssessmentReport[] = clusterRbacAssessmentReportObjects
+    .concat(rbacAssessmentReportObjects)
+    .map((object: KubeObject) => object.jsonData);
 
   const reports = isFailedControlSwitchChecked
     ? rbacAssessmentReports.filter(report => {
@@ -57,7 +60,7 @@ export function RbacAssessmentReportList() {
                     routeName={RoutingPath.RbacAssessmentReportDetail}
                     params={{
                       name: row.original.metadata.name,
-                      namespace: row.original.metadata.namespace,
+                      namespace: row.original.metadata.namespace ?? '-',
                     }}
                   >
                     {cell.getValue()}

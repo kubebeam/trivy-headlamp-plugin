@@ -10,6 +10,7 @@ import {
 import { KubeObject } from '@kinvolk/headlamp-plugin/lib/lib/k8s/cluster';
 import { Link } from '@mui/material';
 import { useState } from 'react';
+import { VulnerabilityReportReportVulnerabilities } from 'src/types/VulnerabilityReportReportVulnerabilities';
 import { getURLSegments } from '../common/url';
 import { vulnerabilityreportClass } from '../model';
 import { VulnerabilityReport } from '../types/VulnerabilityReport';
@@ -74,7 +75,7 @@ function Matches(props: { reportVulnerability: VulnerabilityReport }) {
           {
             id: 'Score',
             header: 'CVSS',
-            accessorFn: (match: VulnerabilityReport.Match) =>
+            accessorFn: (match: VulnerabilityReportReportVulnerabilities) =>
               match.vulnerability.cvss ? match.vulnerability.cvss[0].metrics.baseScore : 0,
             gridTemplate: 'auto',
           },
@@ -95,7 +96,7 @@ function Matches(props: { reportVulnerability: VulnerabilityReport }) {
           },
           {
             header: 'Fix in version',
-            accessorFn: (item: VulnerabilityReport.Match) =>
+            accessorFn: (item: VulnerabilityReportReportVulnerabilities) =>
               item.vulnerability.fix?.versions && Array.isArray(item.vulnerability.fix?.versions)
                 ? item.vulnerability.fix.versions.join(', ')
                 : '',
@@ -103,7 +104,7 @@ function Matches(props: { reportVulnerability: VulnerabilityReport }) {
           },
           {
             header: 'Description',
-            accessorFn: (item: VulnerabilityReport.Match) => {
+            accessorFn: (item: VulnerabilityReportReportVulnerabilities) => {
               let relatedDescription: string = '';
               if (item.relatedVulnerabilities) {
                 for (const related of item.relatedVulnerabilities) {

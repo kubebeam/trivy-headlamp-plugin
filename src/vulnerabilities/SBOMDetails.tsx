@@ -6,7 +6,7 @@ import {
 import { KubeObject } from '@kinvolk/headlamp-plugin/lib/lib/k8s/cluster';
 import { useState } from 'react';
 import { getURLSegments } from '../common/url';
-import { sbomreportClass } from '../model';
+import { clustersbomreportClass, sbomreportClass } from '../model';
 import { SbomReport } from '../types/SbomReport';
 import { SbomReportReportComponentsComponents } from '../types/SbomReportReportComponentsComponents';
 
@@ -15,7 +15,8 @@ export function SbomReportDetails() {
 
   const [sbomReportObject, setSbomReportObject] = useState<KubeObject>(null);
 
-  sbomreportClass.useApiGet(setSbomReportObject, name, namespace);
+  if (namespace === '-') clustersbomreportClass.useApiGet(setSbomReportObject, name);
+  else sbomreportClass.useApiGet(setSbomReportObject, name, namespace);
 
   if (!sbomReportObject) {
     return <div></div>;
