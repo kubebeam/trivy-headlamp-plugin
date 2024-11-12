@@ -14,7 +14,7 @@ import { RbacAssessmentReport } from '../types/RbacAssessmentReport';
 export function RbacAssessmentReportList() {
   const [rbacAssessmentReportObjects, setRbacAssessmentReportObjects] = useState<KubeObject>(null);
   const [clusterRbacAssessmentReportObjects, setClusterRbacAssessmentReportObjects] =
-    useState<KubeObject>(null);
+    useState<KubeObject[]>(null);
   const [isFailedControlSwitchChecked, setIsFailedControlSwitchChecked] = useState(true);
 
   rbacassessmentreportClass.useApiList(setRbacAssessmentReportObjects);

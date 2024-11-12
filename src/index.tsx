@@ -11,7 +11,6 @@ export namespace RoutingPath {
   export const ExposedSecretDetails = '/trivy/secrets/:namespace/:name';
   export const ExposedSecretList = '/trivy/secrets';
   export const ControlResults = '/trivy/compliance/:control';
-  export const ImageVulnerabilityDetails = '/trivy/images/:namespace/:name';
   export const InfraAssessmentReportDetail = '/trivy/infra/:namespace/:name';
   export const RbacAssessmentReportDetail = '/trivy/rbac/:namespace/:name';
 }
@@ -136,17 +135,6 @@ registerRoute({
   component: () => <VulnerabilityReportDetails />,
   exact: true,
   name: 'Vulnerability Report',
-});
-
-import { ImageVulnerabilityDetails } from './vulnerabilities/ImageDetails';
-
-registerRoute({
-  path: RoutingPath.ImageVulnerabilityDetails,
-  parent: 'trivy',
-  sidebar: 'trivy-vulnerabilities',
-  component: () => <ImageVulnerabilityDetails />,
-  exact: true,
-  name: 'Image Vulnerabilities',
 });
 
 import { SbomReportDetails } from './vulnerabilities/SBOMDetails';

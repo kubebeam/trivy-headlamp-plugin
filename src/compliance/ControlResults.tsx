@@ -18,7 +18,7 @@ import { ConfigAuditReportReportChecks } from '../types/ConfigAuditReportReportC
 export function ControlResults() {
   const [controlID] = getURLSegments(-1);
 
-  const [configAuditReportObjects, setConfigAuditReports] = useState<KubeObject>(null);
+  const [configAuditReportObjects, setConfigAuditReports] = useState<KubeObject[]>(null);
 
   configauditreportClass.useApiList(setConfigAuditReports);
 

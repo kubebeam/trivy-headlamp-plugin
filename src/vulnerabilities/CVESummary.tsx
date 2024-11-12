@@ -21,7 +21,9 @@ export function getCVESummary(vulnerabilityReport: VulnerabilityReport) {
         }}
       >
         <Tooltip title={severity}>
-          {countScan} {severity}
+          <Box>
+            {countScan} {severity}
+          </Box>
         </Tooltip>
       </Box>
     );

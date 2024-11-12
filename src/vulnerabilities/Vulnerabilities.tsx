@@ -19,7 +19,7 @@ import { getImage } from './util';
 export function VulnerabilityList() {
   const [vulnerabilityReportObjects, setVulnerabilityReports] = useState<KubeObject>(null);
   const [clusterVulnerabilityReportObjects, setClusterVulnerabilityReports] =
-    useState<KubeObject>(null);
+    useState<KubeObject[]>(null);
 
   vulnerabilityreportClass.useApiList(setVulnerabilityReports);
   clustervulnerabilityreportClass.useApiList(setClusterVulnerabilityReports);

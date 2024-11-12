@@ -11,7 +11,7 @@ import { exposedsecretreportClass } from '../model';
 import { ExposedSecretReport } from '../types/ExposedSecretReport';
 
 export function ExposedSecretList() {
-  const [exposedSecretObjects, setExposedSecretObjects] = useState<KubeObject>(null);
+  const [exposedSecretObjects, setExposedSecretObjects] = useState<KubeObject[]>(null);
 
   exposedsecretreportClass.useApiList(setExposedSecretObjects);
 
@@ -30,7 +30,7 @@ export function ExposedSecretList() {
 
   return (
     <>
-      <SectionBox title="Exposed Secrets">
+      <SectionBox title="Exposed Secrets" sx={{pt: 1}}>
         <HeadlampTable
           data={filteredSecretReports}
           columns={[

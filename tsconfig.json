@@ -1,9 +1,4 @@
 {
   "extends": "./node_modules/@kinvolk/headlamp-plugin/config/plugins-tsconfig.json",
-  "include": ["./src/**/*", "jsconfig.js"],
-  "compilerOptions": {
-    "target": "ES2020",
-    "strict": true,
-    "lib": ["dom", "dom.iterable", "esnext", "es2020"],
-  },
+  "include": ["./src/**/*"]
 }

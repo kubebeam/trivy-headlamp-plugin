@@ -5,13 +5,13 @@ import {
 } from '@kinvolk/headlamp-plugin/lib/CommonComponents';
 import { KubeObject } from '@kinvolk/headlamp-plugin/lib/lib/k8s/cluster';
 import { useState } from 'react';
-import { ClusterComplianceReport } from '../configauditreports/ClusterComplianceReport';
+import { ClusterComplianceReport } from '../types/ClusterComplianceReport';
 import { RoutingPath } from '../index';
 import { clustercompliancereportClass } from '../model';
 
 export function ClusterComplianceReportList() {
   const [clusterComplianceReportObjects, setClusterComplianceReportObjects] =
-    useState<KubeObject>(null);
+    useState<KubeObject[]>(null);
 
   clustercompliancereportClass.useApiList(setClusterComplianceReportObjects);
 
@@ -25,7 +25,7 @@ export function ClusterComplianceReportList() {
 
   return (
     <>
-      <SectionBox>
+      <SectionBox sx={{pt: 1}}>
         <HeadlampTable
           data={clusterComplianceReports}
           columns={[

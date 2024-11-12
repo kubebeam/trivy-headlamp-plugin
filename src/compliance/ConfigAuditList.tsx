@@ -11,7 +11,7 @@ import { configauditreportClass } from '../model';
 import { ConfigAuditReport } from '../types/ConfigAuditReport';
 
 export function ConfigAuditReportList() {
-  const [configAuditReportObjects, setConfigAuditReports] = useState<KubeObject>(null);
+  const [configAuditReportObjects, setConfigAuditReports] = useState<KubeObject[]>(null);
 
   configauditreportClass.useApiList(setConfigAuditReports);
 
@@ -25,7 +25,7 @@ export function ConfigAuditReportList() {
 
   return (
     <>
-      <SectionBox>
+      <SectionBox sx={{pt: 1}}>
         <HeadlampTable
           data={configAuditReports}
           columns={[

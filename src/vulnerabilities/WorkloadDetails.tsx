@@ -29,7 +29,7 @@ export function VulnerabilityReportDetails() {
 
   return (
     <>
-      <SectionBox>
+      <SectionBox title="Workload scan">
         <NameValueTable
           rows={[
             {

@@ -17,7 +17,7 @@ export default function ResourceView(props: { vulnerabilityReports: Vulnerabilit
   const { vulnerabilityReports } = props;
 
   return (
-    <SectionBox>
+    <SectionBox sx={{pt: 1}}>
       <HeadlampTable
         data={vulnerabilityReports}
         columns={[
@@ -112,7 +112,7 @@ function resultStack(vulnerabilityReport: VulnerabilityReport) {
           width: 25,
         }}
       >
-        <Tooltip title={severity}>{count}</Tooltip>
+        <Tooltip title={severity}><Box>{count}</Box></Tooltip>
       </Box>
     );
   }

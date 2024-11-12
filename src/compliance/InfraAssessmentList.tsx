@@ -12,9 +12,9 @@ import { InfraAssessmentReport } from '../types/InfraAssessmentReport';
 
 export function InfraAssessmentReportList() {
   const [infraAssessmentReportObjects, setInfraAssessmentReportObjects] =
-    useState<KubeObject>(null);
+    useState<KubeObject[]>(null);
   const [clusterInfraAssessmentReportObjects, setClusterInfraAssessmentReportObjects] =
-    useState<KubeObject>(null);
+    useState<KubeObject[]>(null);
 
   infraassessmentreportClass.useApiList(setInfraAssessmentReportObjects);
   clusterinfraassessmentreportClass.useApiList(setClusterInfraAssessmentReportObjects);
@@ -29,7 +29,7 @@ export function InfraAssessmentReportList() {
 
   return (
     <>
-      <SectionBox>
+      <SectionBox sx={{pt: 1}}>
         <HeadlampTable
           data={infraAssessmentReports}
           columns={[
