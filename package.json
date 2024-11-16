@@ -1,6 +1,6 @@
 {
   "name": "trivy-plugin",
-  "version": "v0.0.3-alpha",
+  "version": "v0.1.0-beta",
   "description": "Trivy plugin",
   "scripts": {
     "start": "headlamp-plugin start",
