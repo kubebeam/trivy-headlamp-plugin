@@ -5,9 +5,9 @@ import {
 } from '@kinvolk/headlamp-plugin/lib/CommonComponents';
 import { KubeObject } from '@kinvolk/headlamp-plugin/lib/lib/k8s/cluster';
 import { useState } from 'react';
-import { ClusterComplianceReport } from '../types/ClusterComplianceReport';
 import { RoutingPath } from '../index';
 import { clustercompliancereportClass } from '../model';
+import { ClusterComplianceReport } from '../types/ClusterComplianceReport';
 
 export function ClusterComplianceReportList() {
   const [clusterComplianceReportObjects, setClusterComplianceReportObjects] =

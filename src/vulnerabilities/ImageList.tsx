@@ -44,18 +44,20 @@ export default function ImageListView(props: { vulnerabilityReports: Vulnerabili
               header: 'Workloads',
               accessorFn: (imageScan: ImageScan) => {
                 return (
-                  <Stack spacing={1} >
-                    { 
-                      imageScan.workloads.map((workload, indx) => <Box key={indx}><HeadlampLink
-                        routeName={RoutingPath.TrivyVulnerabilityReportDetails}
-                        params={{
-                          name: workload.metadata.name,
-                          namespace: workload.metadata.namespace ?? '-',
-                        }}
-                      >
-                        {workload.metadata.name}
-                      </HeadlampLink></Box>)
-                    }
+                  <Stack spacing={1}>
+                    {imageScan.workloads.map((workload, indx) => (
+                      <Box key={indx}>
+                        <HeadlampLink
+                          routeName={RoutingPath.TrivyVulnerabilityReportDetails}
+                          params={{
+                            name: workload.metadata.name,
+                            namespace: workload.metadata.namespace ?? '-',
+                          }}
+                        >
+                          {workload.metadata.name}
+                        </HeadlampLink>
+                      </Box>
+                    ))}
                   </Stack>
                 );
               },
@@ -66,15 +68,12 @@ export default function ImageListView(props: { vulnerabilityReports: Vulnerabili
                 const namespaces = [
                   ...new Set(imageScan.workloads.map(workload => workload.metadata.namespace)),
                 ];
-                
+
                 return (
-                  <Stack spacing={1} >
-                    {
-                      Array.from(namespaces).map((namespace, indx) => 
-                      <Box key={indx}>
-                        {namespace}
-                      </Box>)
-                    } 
+                  <Stack spacing={1}>
+                    {Array.from(namespaces).map((namespace, indx) => (
+                      <Box key={indx}>{namespace}</Box>
+                    ))}
                   </Stack>
                 );
               },
@@ -121,9 +120,7 @@ function getImageScans(vulnerabilityReports: VulnerabilityReport[]): ImageScan[]
   vulnerabilityReports.map((report: VulnerabilityReport) => {
     const artifact = `${report.report.artifact.repository}:${report.report.artifact.tag}`;
     const imageScan = imageScans.get(artifact);
-    const workloadName = report.metadata.labels
-      ? report.metadata.labels['trivy-operator.resource.name']
-      : '';
+
     if (imageScan) {
       imageScan.workloads.push(report);
     } else {
@@ -160,7 +157,10 @@ function resultStack(imageScan: ImageScan) {
       >
         <Tooltip title={cveList(vulnerabilities, severity)}>
           <Box>
-          {vulnerabilities.filter(v => v.severity.toLowerCase() === severity.toLowerCase()).length}
+            {
+              vulnerabilities.filter(v => v.severity.toLowerCase() === severity.toLowerCase())
+                .length
+            }
           </Box>
         </Tooltip>
       </Box>
