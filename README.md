@@ -33,9 +33,8 @@ The plugin provides view pages for Trivy custom resources, such as clustercompli
 
 #### In-cluster Headlamp
 
-- Install Headlamp (https://headlamp.dev/docs/latest/installation/in-cluster/).
-- Configure helm values for Headlamp to add an initContainer for downloading the tarball. See [example helm values](https://github.com/Kubebeam/kubescape-headlamp-plugin/blob/main/examples/headlamp-helm-values.yaml). The tarball for the plugin is saved in the asset list for the [release](https://github.com/kubebeam/trivy-headlamp-plugin/releases).
-- Alternatively follow the guidance from headlamp to create a container image with the plugin artifacts: https://headlamp.dev/blog/2022/10/20/best-practices-for-deploying-headlamp-with-plugins/.
+- Install Headlamp (https://headlamp.dev/docs/latest/installation/in-cluster/)
+- Add an initContainer to the headlamp deployment to download the trivy-plugin files. See [example helm values](examples/headlamp-helm-values.yaml).
 
 ## Contributing
 
