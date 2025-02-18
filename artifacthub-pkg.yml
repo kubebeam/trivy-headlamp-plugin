@@ -62,5 +62,5 @@ readme: |
 
   #### In-cluster Headlamp
 
-- Install Headlamp (https://headlamp.dev/docs/latest/installation/in-cluster/)
-- Add an initContainer to the headlamp deployment to download the trivy-plugin files. See [example helm values](examples/headlamp-helm-values.yaml).
+  - Install Headlamp (https://headlamp.dev/docs/latest/installation/in-cluster/)
+  - Add an initContainer to the headlamp deployment to download the trivy-plugin files. See [example helm values](examples/headlamp-helm-values.yaml).
