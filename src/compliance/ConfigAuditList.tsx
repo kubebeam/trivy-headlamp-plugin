@@ -24,46 +24,44 @@ export function ConfigAuditReportList() {
   );
 
   return (
-    <>
-      <SectionBox sx={{pt: 1}}>
-        <HeadlampTable
-          data={configAuditReports}
-          columns={[
-            {
-              header: 'Name',
-              accessorFn: (report: ConfigAuditReport) =>
-                report.metadata.labels['trivy-operator.resource.name'],
-              Cell: ({ cell, row }: any) => {
-                return (
-                  <HeadlampLink
-                    routeName={RoutingPath.ConfigAuditReportDetail}
-                    params={{
-                      name: row.original.metadata.name,
-                      namespace: row.original.metadata.namespace ?? '-',
-                    }}
-                  >
-                    {cell.getValue()}
-                  </HeadlampLink>
-                );
-              },
-              gridTemplate: 'auto',
+    <SectionBox sx={{ pt: 1 }}>
+      <HeadlampTable
+        data={configAuditReports}
+        columns={[
+          {
+            header: 'Name',
+            accessorFn: (report: ConfigAuditReport) =>
+              report.metadata.labels['trivy-operator.resource.name'],
+            Cell: ({ cell, row }: any) => {
+              return (
+                <HeadlampLink
+                  routeName={RoutingPath.ConfigAuditReportDetail}
+                  params={{
+                    name: row.original.metadata.name,
+                    namespace: row.original.metadata.namespace ?? '-',
+                  }}
+                >
+                  {cell.getValue()}
+                </HeadlampLink>
+              );
             },
-            {
-              header: 'Kind',
-              accessorFn: (report: ConfigAuditReport) =>
-                report.metadata.labels['trivy-operator.resource.kind'],
-            },
-            {
-              header: 'Namespace',
-              accessorKey: 'metadata.namespace',
-            },
-            {
-              header: 'Results',
-              accessorFn: (report: ConfigAuditReport) => getControlSummary(report.report.summary),
-            },
-          ]}
-        />
-      </SectionBox>
-    </>
+            gridTemplate: 'auto',
+          },
+          {
+            header: 'Kind',
+            accessorFn: (report: ConfigAuditReport) =>
+              report.metadata.labels['trivy-operator.resource.kind'],
+          },
+          {
+            header: 'Namespace',
+            accessorKey: 'metadata.namespace',
+          },
+          {
+            header: 'Results',
+            accessorFn: (report: ConfigAuditReport) => getControlSummary(report.report.summary),
+          },
+        ]}
+      />
+    </SectionBox>
   );
 }

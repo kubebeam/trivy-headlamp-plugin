@@ -29,53 +29,51 @@ export function ExposedSecretList() {
   });
 
   return (
-    <>
-      <SectionBox title="Exposed Secrets" sx={{pt: 1}}>
-        <HeadlampTable
-          data={filteredSecretReports}
-          columns={[
-            {
-              header: 'Name',
-              accessorFn: (exposedSecretReport: ExposedSecretReport) =>
-                exposedSecretReport.metadata.labels['trivy-operator.resource.name'],
-              Cell: ({ cell, row }: any) => {
-                return (
-                  <HeadlampLink
-                    routeName={RoutingPath.ExposedSecretDetails}
-                    params={{
-                      name: row.original.metadata.name,
-                      namespace: row.original.metadata.namespace,
-                    }}
-                  >
-                    {cell.getValue()}
-                  </HeadlampLink>
-                );
-              },
+    <SectionBox title="Exposed Secrets" sx={{ pt: 1 }}>
+      <HeadlampTable
+        data={filteredSecretReports}
+        columns={[
+          {
+            header: 'Name',
+            accessorFn: (exposedSecretReport: ExposedSecretReport) =>
+              exposedSecretReport.metadata.labels['trivy-operator.resource.name'],
+            Cell: ({ cell, row }: any) => {
+              return (
+                <HeadlampLink
+                  routeName={RoutingPath.ExposedSecretDetails}
+                  params={{
+                    name: row.original.metadata.name,
+                    namespace: row.original.metadata.namespace,
+                  }}
+                >
+                  {cell.getValue()}
+                </HeadlampLink>
+              );
             },
-            {
-              header: 'Container',
-              accessorFn: (exposedSecretReport: ExposedSecretReport) =>
-                exposedSecretReport.metadata.labels['trivy-operator.container.name'],
-            },
-            {
-              header: 'Kind',
-              accessorFn: (exposedSecretReport: ExposedSecretReport) =>
-                exposedSecretReport.metadata.labels['trivy-operator.resource.kind'],
-            },
-            {
-              header: 'Namespace',
-              accessorFn: (exposedSecretReport: ExposedSecretReport) =>
-                exposedSecretReport.metadata.labels['trivy-operator.resource.namespace'],
-            },
-            {
-              header: 'Results',
-              accessorFn: (exposedSecretReport: ExposedSecretReport) =>
-                getControlSummary(exposedSecretReport.report.summary),
-              gridTemplate: 'auto',
-            },
-          ]}
-        />
-      </SectionBox>
-    </>
+          },
+          {
+            header: 'Container',
+            accessorFn: (exposedSecretReport: ExposedSecretReport) =>
+              exposedSecretReport.metadata.labels['trivy-operator.container.name'],
+          },
+          {
+            header: 'Kind',
+            accessorFn: (exposedSecretReport: ExposedSecretReport) =>
+              exposedSecretReport.metadata.labels['trivy-operator.resource.kind'],
+          },
+          {
+            header: 'Namespace',
+            accessorFn: (exposedSecretReport: ExposedSecretReport) =>
+              exposedSecretReport.metadata.labels['trivy-operator.resource.namespace'],
+          },
+          {
+            header: 'Results',
+            accessorFn: (exposedSecretReport: ExposedSecretReport) =>
+              getControlSummary(exposedSecretReport.report.summary),
+            gridTemplate: 'auto',
+          },
+        ]}
+      />
+    </SectionBox>
   );
 }

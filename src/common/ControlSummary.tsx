@@ -23,7 +23,7 @@ export function getControlSummary(summary: ConfigAuditReportReportSummary | unde
       >
         <Tooltip title={severity}>
           <Box>
-          {countScan} {severity}
+            {countScan} {severity}
           </Box>
         </Tooltip>
       </Box>

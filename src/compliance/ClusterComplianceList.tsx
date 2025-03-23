@@ -24,39 +24,37 @@ export function ClusterComplianceReportList() {
   );
 
   return (
-    <>
-      <SectionBox sx={{pt: 1}}>
-        <HeadlampTable
-          data={clusterComplianceReports}
-          columns={[
-            {
-              header: 'Name',
-              accessorKey: 'metadata.name',
-              Cell: ({ cell }: any) => {
-                return (
-                  <HeadlampLink
-                    routeName={RoutingPath.ClusterComplianceReportDetail}
-                    params={{ name: cell.getValue() }}
-                  >
-                    {cell.getValue()}
-                  </HeadlampLink>
-                );
-              },
-              gridTemplate: 'auto',
+    <SectionBox sx={{ pt: 1 }}>
+      <HeadlampTable
+        data={clusterComplianceReports}
+        columns={[
+          {
+            header: 'Name',
+            accessorKey: 'metadata.name',
+            Cell: ({ cell }: any) => {
+              return (
+                <HeadlampLink
+                  routeName={RoutingPath.ClusterComplianceReportDetail}
+                  params={{ name: cell.getValue() }}
+                >
+                  {cell.getValue()}
+                </HeadlampLink>
+              );
             },
-            {
-              header: 'Failed',
-              accessorKey: 'status.summary.failCount',
-              gridTemplate: 'min-content',
-            },
-            {
-              header: 'Passed',
-              accessorKey: 'status.summary.passCount',
-              gridTemplate: 'min-content',
-            },
-          ]}
-        />
-      </SectionBox>
-    </>
+            gridTemplate: 'auto',
+          },
+          {
+            header: 'Failed',
+            accessorKey: 'status.summary.failCount',
+            gridTemplate: 'min-content',
+          },
+          {
+            header: 'Passed',
+            accessorKey: 'status.summary.passCount',
+            gridTemplate: 'min-content',
+          },
+        ]}
+      />
+    </SectionBox>
   );
 }

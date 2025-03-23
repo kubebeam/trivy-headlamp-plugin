@@ -28,41 +28,38 @@ export function InfraAssessmentReportList() {
     .map((object: KubeObject) => object.jsonData);
 
   return (
-    <>
-      <SectionBox sx={{pt: 1}}>
-        <HeadlampTable
-          data={infraAssessmentReports}
-          columns={[
-            {
-              header: 'Name',
-              accessorKey: 'metadata.name',
-              Cell: ({ cell, row }: any) => {
-                return (
-                  <HeadlampLink
-                    routeName={RoutingPath.InfraAssessmentReportDetail}
-                    params={{
-                      name: cell.getValue(),
-                      namespace: row.original.metadata.namespace ?? '-',
-                    }}
-                  >
-                    {cell.getValue()}
-                  </HeadlampLink>
-                );
-              },
-              gridTemplate: 'auto',
+    <SectionBox sx={{ pt: 1 }}>
+      <HeadlampTable
+        data={infraAssessmentReports}
+        columns={[
+          {
+            header: 'Name',
+            accessorKey: 'metadata.name',
+            Cell: ({ cell, row }: any) => {
+              return (
+                <HeadlampLink
+                  routeName={RoutingPath.InfraAssessmentReportDetail}
+                  params={{
+                    name: cell.getValue(),
+                    namespace: row.original.metadata.namespace ?? '-',
+                  }}
+                >
+                  {cell.getValue()}
+                </HeadlampLink>
+              );
             },
-            {
-              header: 'Namespace',
-              accessorKey: 'metadata.namespace',
-            },
-            {
-              header: 'Results',
-              accessorFn: (report: InfraAssessmentReport) =>
-                getControlSummary(report.report.summary),
-            },
-          ]}
-        />
-      </SectionBox>
-    </>
+            gridTemplate: 'auto',
+          },
+          {
+            header: 'Namespace',
+            accessorKey: 'metadata.namespace',
+          },
+          {
+            header: 'Results',
+            accessorFn: (report: InfraAssessmentReport) => getControlSummary(report.report.summary),
+          },
+        ]}
+      />
+    </SectionBox>
   );
 }
