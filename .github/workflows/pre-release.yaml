@@ -9,8 +9,9 @@ on:
         default: 'v0.0.0'
 
 permissions:
-  contents: read
-
+  contents: write
+  packages: write
+  
 env:
   RELEASE_DATE: '' # calculated in action release date
   RELEASE_TAR: ${{ github.event.repository.name }}-${{ github.event.inputs.releaseName }}.tar.gz
