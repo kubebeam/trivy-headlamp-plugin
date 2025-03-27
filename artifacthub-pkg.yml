@@ -1,7 +1,7 @@
 version: v0.2.0
 name: headlamp_trivy
 displayName: Trivy Headlamp Plugin
-createdAt: '2025-03-27T09:38:45Z'
+createdAt: '2025-03-27T09:44:29Z'
 description: Trivy compliance and vulnerabilities in Headlamp.
 homeURL: https://github.com/kubebeam/trivy-headlamp-plugin
 logoURL: https://raw.githubusercontent.com/aquasecurity/trivy-docker-extension/refs/heads/main/trivy.svg
@@ -17,7 +17,7 @@ screenshots:
     url: https://raw.githubusercontent.com/kubebeam/trivy-headlamp-plugin/e6680316a37adc8082eca1078271429ada62d1f3/demo/vulnerabilities.png
 annotations:
   headlamp/plugin/archive-url: https://github.com/kubebeam/trivy-headlamp-plugin/releases/download/v0.2.0/trivy-headlamp-plugin-v0.2.0.tar.gz
-  headlamp/plugin/archive-checksum: SHA256:b73a42e20d47433507ef089c367988692cca8ed605752ed448983c6710045873
+  headlamp/plugin/archive-checksum: SHA256:255b6a671b7574e210750a1a3eebc889b5c68b5ea9779273fc25de4cb70bfab0
   headlamp/plugin/version-compat: '>=0.25'
   headlamp/plugin/distro-compat: in-cluster,web,docker-desktop,desktop
 install: |
