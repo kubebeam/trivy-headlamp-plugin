@@ -11,9 +11,9 @@ import { configauditreportClass } from '../model';
 import { ConfigAuditReport } from '../types/ConfigAuditReport';
 
 export function ConfigAuditReportList() {
-  const [configAuditReportObjects, setConfigAuditReports] = useState<KubeObject[]>(null);
+  const [configAuditReportObjects, setConfigAuditReportObjects] = useState<KubeObject[]>(null);
 
-  configauditreportClass.useApiList(setConfigAuditReports);
+  configauditreportClass.useApiList(setConfigAuditReportObjects);
 
   if (!configAuditReportObjects) {
     return <div></div>;
@@ -61,6 +61,7 @@ export function ConfigAuditReportList() {
             accessorFn: (report: ConfigAuditReport) => getControlSummary(report.report.summary),
           },
         ]}
+        reflectInURL="config"
       />
     </SectionBox>
   );

@@ -71,39 +71,37 @@ export function ExposedSecretDetails() {
   );
 }
 
-function Secrets(props: { exposedSecretReport: ExposedSecretReport }) {
+function Secrets(props: Readonly<{ exposedSecretReport: ExposedSecretReport }>) {
   const { exposedSecretReport } = props;
 
   return (
-    <>
-      <SectionBox title="Secrets">
-        <HeadlampTable
-          data={exposedSecretReport.report.secrets}
-          columns={[
-            {
-              header: 'Rule ID',
-              accessorKey: 'ruleID',
-            },
-            {
-              header: 'Category',
-              accessorKey: 'category',
-            },
-            {
-              header: 'Severity',
-              accessorKey: 'severity',
-              gridTemplate: 'min-content',
-            },
-            {
-              header: 'Target',
-              accessorKey: 'target',
-            },
-            {
-              header: 'Title',
-              accessorKey: 'title',
-            },
-          ]}
-        />
-      </SectionBox>
-    </>
+    <SectionBox title="Secrets" backlink>
+      <HeadlampTable
+        data={exposedSecretReport.report.secrets}
+        columns={[
+          {
+            header: 'Rule ID',
+            accessorKey: 'ruleID',
+          },
+          {
+            header: 'Category',
+            accessorKey: 'category',
+          },
+          {
+            header: 'Severity',
+            accessorKey: 'severity',
+            gridTemplate: 'min-content',
+          },
+          {
+            header: 'Target',
+            accessorKey: 'target',
+          },
+          {
+            header: 'Title',
+            accessorKey: 'title',
+          },
+        ]}
+      />
+    </SectionBox>
   );
 }

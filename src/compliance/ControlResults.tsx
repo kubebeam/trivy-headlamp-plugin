@@ -18,9 +18,9 @@ import { ConfigAuditReportReportChecks } from '../types/ConfigAuditReportReportC
 export function ControlResults() {
   const [controlID] = getURLSegments(-1);
 
-  const [configAuditReportObjects, setConfigAuditReports] = useState<KubeObject[]>(null);
+  const [configAuditReportObjects, setConfigAuditReportObjects] = useState<KubeObject[]>(null);
 
-  configauditreportClass.useApiList(setConfigAuditReports);
+  configauditreportClass.useApiList(setConfigAuditReportObjects);
 
   if (!configAuditReportObjects) {
     return <div></div>;
@@ -53,7 +53,7 @@ export function ControlResults() {
 
   return (
     <>
-      <SectionBox title={`${controlID}: ${firstCheck?.title}`}>
+      <SectionBox title={`${controlID}: ${firstCheck?.title}`} backLink>
         <NameValueTable
           rows={[
             {

@@ -25,7 +25,7 @@ export function ConfigAuditReportDetails() {
 
   return (
     <>
-      <SectionBox title="Configuration Audit">
+      <SectionBox title="Configuration Audit" backLink>
         <NameValueTable
           rows={[
             {
@@ -56,46 +56,44 @@ function Results(props: { configAuditReport: ConfigAuditReport }) {
   configAuditReport.report.checks.map(r => uniqueResultsMap.set(r.checkID, r));
 
   return (
-    <>
-      <SectionBox title="Results">
-        <HeadlampTable
-          data={Array.from(uniqueResultsMap.values())}
-          columns={[
-            {
-              header: 'Status',
-              accessorFn: (check: ConfigAuditReportReportChecks) =>
-                check.success ? 'Pass' : 'Failed',
-              gridTemplate: 'min-content',
-            },
-            {
-              header: 'ID',
-              accessorKey: 'checkID',
-              gridTemplate: 'min-content',
-            },
-            {
-              header: 'Category',
-              accessorKey: 'category',
-            },
-            {
-              header: 'Description',
-              accessorKey: 'description',
-            },
-            {
-              header: 'Severity',
-              accessorKey: 'severity',
-              gridTemplate: 'min-content',
-            },
-            {
-              header: 'Messages',
-              accessorFn: (check: ConfigAuditReportReportChecks) => check.messages?.join('\n'),
-            },
-            {
-              header: 'Remediation',
-              accessorKey: 'remediation',
-            },
-          ]}
-        />
-      </SectionBox>
-    </>
+    <SectionBox title="Results" backLink>
+      <HeadlampTable
+        data={Array.from(uniqueResultsMap.values())}
+        columns={[
+          {
+            header: 'Status',
+            accessorFn: (check: ConfigAuditReportReportChecks) =>
+              check.success ? 'Pass' : 'Failed',
+            gridTemplate: 'min-content',
+          },
+          {
+            header: 'ID',
+            accessorKey: 'checkID',
+            gridTemplate: 'min-content',
+          },
+          {
+            header: 'Category',
+            accessorKey: 'category',
+          },
+          {
+            header: 'Description',
+            accessorKey: 'description',
+          },
+          {
+            header: 'Severity',
+            accessorKey: 'severity',
+            gridTemplate: 'min-content',
+          },
+          {
+            header: 'Messages',
+            accessorFn: (check: ConfigAuditReportReportChecks) => check.messages?.join('\n'),
+          },
+          {
+            header: 'Remediation',
+            accessorKey: 'remediation',
+          },
+        ]}
+      />
+    </SectionBox>
   );
 }

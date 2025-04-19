@@ -27,7 +27,7 @@ export function RbacAssessmentDetails() {
 
   return (
     <>
-      <SectionBox title="RBAC Assessment">
+      <SectionBox title="RBAC Assessment" backLink>
         <NameValueTable
           rows={[
             {
@@ -46,39 +46,37 @@ export function RbacAssessmentDetails() {
   );
 }
 
-function Results(props: { rbacAssessmentReport: RbacAssessmentReport }) {
+function Results(props: Readonly<{ rbacAssessmentReport: RbacAssessmentReport }>) {
   const { rbacAssessmentReport } = props;
   const checks = rbacAssessmentReport.report?.checks;
 
   return (
-    <>
-      <SectionBox title="Checks">
-        <HeadlampTable
-          data={checks}
-          columns={[
-            {
-              header: 'Severity',
-              accessorKey: 'severity',
-              gridTemplate: 'min-content',
-            },
-            {
-              header: 'ID',
-              accessorKey: 'checkID',
-              gridTemplate: 'min-content',
-            },
-            {
-              header: 'Description',
-              accessorKey: 'description',
-              gridTemplate: 'auto',
-            },
-            {
-              header: 'Remediation',
-              accessorKey: 'remediation',
-              gridTemplate: 'auto',
-            },
-          ]}
-        />
-      </SectionBox>
-    </>
+    <SectionBox title="Checks">
+      <HeadlampTable
+        data={checks}
+        columns={[
+          {
+            header: 'Severity',
+            accessorKey: 'severity',
+            gridTemplate: 'min-content',
+          },
+          {
+            header: 'ID',
+            accessorKey: 'checkID',
+            gridTemplate: 'min-content',
+          },
+          {
+            header: 'Description',
+            accessorKey: 'description',
+            gridTemplate: 'auto',
+          },
+          {
+            header: 'Remediation',
+            accessorKey: 'remediation',
+            gridTemplate: 'auto',
+          },
+        ]}
+      />
+    </SectionBox>
   );
 }

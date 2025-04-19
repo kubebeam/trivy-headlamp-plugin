@@ -17,10 +17,11 @@ import { getImage } from './util';
 
 export function VulnerabilityReportDetails() {
   const [name, namespace] = getURLSegments(-1, -2);
-  const [vulnerabilityReportObject, setvulnerabilityReport] = React.useState(null);
+  const [vulnerabilityReportObject, setvulnerabilityReportObject] = React.useState(null);
 
-  if (namespace === '-') clustervulnerabilityreportClass.useApiGet(setvulnerabilityReport, name);
-  else vulnerabilityreportClass.useApiGet(setvulnerabilityReport, name, namespace);
+  if (namespace === '-')
+    clustervulnerabilityreportClass.useApiGet(setvulnerabilityReportObject, name);
+  else vulnerabilityreportClass.useApiGet(setvulnerabilityReportObject, name, namespace);
 
   if (!vulnerabilityReportObject) {
     return <div></div>;
@@ -29,7 +30,7 @@ export function VulnerabilityReportDetails() {
 
   return (
     <>
-      <SectionBox title="Workload scan">
+      <SectionBox title="Workload scan" backLink>
         <NameValueTable
           rows={[
             {
@@ -72,7 +73,7 @@ export function VulnerabilityReportDetails() {
   );
 }
 
-function Results(props: { vulnerabilityReport: VulnerabilityReport }) {
+function Results(props: Readonly<{ vulnerabilityReport: VulnerabilityReport }>) {
   const { vulnerabilityReport } = props;
   const results = vulnerabilityReport.report.vulnerabilities;
 

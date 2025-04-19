@@ -54,6 +54,7 @@ export function ClusterComplianceReportList() {
             gridTemplate: 'min-content',
           },
         ]}
+        reflectInURL="cluster"
       />
     </SectionBox>
   );

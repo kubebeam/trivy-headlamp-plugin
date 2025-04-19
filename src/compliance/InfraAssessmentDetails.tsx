@@ -6,6 +6,7 @@ import {
 import { KubeObject } from '@kinvolk/headlamp-plugin/lib/lib/k8s/cluster';
 import { FormControlLabel, Switch } from '@mui/material';
 import { useState } from 'react';
+import { TrivySessionSettings, useSessionStorage } from '../common/sessionStorage';
 import { getURLSegments } from '../common/url';
 import { clusterinfraassessmentreportClass, infraassessmentreportClass } from '../model';
 import { InfraAssessmentReport } from '../types/InfraAssessmentReport';
@@ -27,7 +28,7 @@ export function InfraAssessmentDetails() {
 
   return (
     <>
-      <SectionBox title="Infra Assessment">
+      <SectionBox title="Infra Assessment" backLink>
         <NameValueTable
           rows={[
             {
@@ -48,7 +49,10 @@ export function InfraAssessmentDetails() {
 
 function Results(props: { infraAssessmentReport: InfraAssessmentReport }) {
   const { infraAssessmentReport } = props;
-  const [isFailedControlSwitchChecked, setIsFailedControlSwitchChecked] = useState(true);
+  const [isFailedControlSwitchChecked, setIsFailedControlSwitchChecked] = useSessionStorage(
+    TrivySessionSettings.FailedControls,
+    true
+  );
   const checks = isFailedControlSwitchChecked
     ? infraAssessmentReport.report.checks.filter(check => !check.success)
     : infraAssessmentReport.report?.checks;

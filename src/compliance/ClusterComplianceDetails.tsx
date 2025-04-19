@@ -7,6 +7,7 @@ import {
 import { KubeObject } from '@kinvolk/headlamp-plugin/lib/lib/k8s/cluster';
 import { FormControlLabel, Switch } from '@mui/material';
 import { useState } from 'react';
+import { TrivySessionSettings, useSessionStorage } from '../common/sessionStorage';
 import { getURLSegments } from '../common/url';
 import { RoutingPath } from '../index';
 import { clustercompliancereportClass } from '../model';
@@ -29,7 +30,7 @@ export function ClusterComplianceDetails() {
 
   return (
     <>
-      <SectionBox title={name}>
+      <SectionBox title={name} backLink>
         <NameValueTable
           rows={[
             {
@@ -60,9 +61,12 @@ export function ClusterComplianceDetails() {
   );
 }
 
-function Results(props: { clusterComplianceReport: ClusterComplianceReport }) {
+function Results(props: Readonly<{ clusterComplianceReport: ClusterComplianceReport }>) {
   const { clusterComplianceReport } = props;
-  const [isFailedControlSwitchChecked, setIsFailedControlSwitchChecked] = useState(true);
+  const [isFailedControlSwitchChecked, setIsFailedControlSwitchChecked] = useSessionStorage(
+    TrivySessionSettings.FailedControls,
+    true
+  );
   const controls = isFailedControlSwitchChecked
     ? getControlsWithFindings(clusterComplianceReport)
     : clusterComplianceReport.spec?.compliance.controls;
@@ -128,13 +132,10 @@ function Results(props: { clusterComplianceReport: ClusterComplianceReport }) {
             {
               header: 'Failures',
               accessorFn: (control: ClusterComplianceReportSpecComplianceControls) => {
-                if (clusterComplianceReport.status?.summaryReport?.controlCheck) {
-                  for (const check of clusterComplianceReport.status?.summaryReport?.controlCheck) {
-                    if (check.id === control.id) {
-                      return check.totalFail;
-                    }
-                  }
-                }
+                const check = clusterComplianceReport.status?.summaryReport?.controlCheck?.find(
+                  check => check.id === control.id
+                );
+                return check ? check.totalFail : 0;
               },
             },
           ]}

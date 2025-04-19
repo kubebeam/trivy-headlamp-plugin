@@ -38,58 +38,56 @@ export function RbacAssessmentReportList() {
     : rbacAssessmentReports;
 
   return (
-    <>
-      <SectionBox>
-        <FormControlLabel
-          checked={isFailedControlSwitchChecked}
-          control={<Switch color="primary" />}
-          label={'Failed checks'}
-          onChange={(event: any, checked: boolean) => {
-            setIsFailedControlSwitchChecked(checked);
-          }}
-        />
-        <HeadlampTable
-          data={reports}
-          columns={[
-            {
-              header: 'Name',
-              accessorFn: (report: RbacAssessmentReport) => getRBACResource(report),
-              Cell: ({ cell, row }: any) => {
-                return (
-                  <HeadlampLink
-                    routeName={RoutingPath.RbacAssessmentReportDetail}
-                    params={{
-                      name: row.original.metadata.name,
-                      namespace: row.original.metadata.namespace ?? '-',
-                    }}
-                  >
-                    {cell.getValue()}
-                  </HeadlampLink>
-                );
-              },
-              gridTemplate: 'auto',
+    <SectionBox>
+      <FormControlLabel
+        checked={isFailedControlSwitchChecked}
+        control={<Switch color="primary" />}
+        label={'Failed checks'}
+        onChange={(event: any, checked: boolean) => {
+          setIsFailedControlSwitchChecked(checked);
+        }}
+      />
+      <HeadlampTable
+        data={reports}
+        columns={[
+          {
+            header: 'Name',
+            accessorFn: (report: RbacAssessmentReport) => getRBACResource(report),
+            Cell: ({ cell, row }: any) => {
+              return (
+                <HeadlampLink
+                  routeName={RoutingPath.RbacAssessmentReportDetail}
+                  params={{
+                    name: row.original.metadata.name,
+                    namespace: row.original.metadata.namespace ?? '-',
+                  }}
+                >
+                  {cell.getValue()}
+                </HeadlampLink>
+              );
             },
-            {
-              header: 'Kind',
-              accessorFn: (report: RbacAssessmentReport) =>
-                report.metadata.labels['trivy-operator.resource.kind'],
-              gridTemplate: 'auto',
-            },
-            {
-              header: 'Namespace',
-              accessorFn: (report: RbacAssessmentReport) =>
-                report.metadata.labels['trivy-operator.resource.namespace'],
-              gridTemplate: 'auto',
-            },
-            {
-              header: 'Results',
-              accessorFn: (report: RbacAssessmentReport) =>
-                getControlSummary(report.report.summary),
-            },
-          ]}
-        />
-      </SectionBox>
-    </>
+            gridTemplate: 'auto',
+          },
+          {
+            header: 'Kind',
+            accessorFn: (report: RbacAssessmentReport) =>
+              report.metadata.labels['trivy-operator.resource.kind'],
+            gridTemplate: 'auto',
+          },
+          {
+            header: 'Namespace',
+            accessorFn: (report: RbacAssessmentReport) =>
+              report.metadata.labels['trivy-operator.resource.namespace'],
+            gridTemplate: 'auto',
+          },
+          {
+            header: 'Results',
+            accessorFn: (report: RbacAssessmentReport) => getControlSummary(report.report.summary),
+          },
+        ]}
+        reflectInURL="rbac"
+      />
+    </SectionBox>
   );
 }
 
