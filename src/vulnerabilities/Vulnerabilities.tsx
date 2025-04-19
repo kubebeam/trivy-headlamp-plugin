@@ -9,8 +9,8 @@ import {
 import { KubeObject } from '@kinvolk/headlamp-plugin/lib/lib/k8s/cluster';
 import { Link } from '@mui/material';
 import { useState } from 'react';
-import { TrivySessionSettings, useSessionStorage } from '../common/sessionStorage';
 import { makeSeverityLabel } from '../common/SeverityLabel';
+import { TrivySettings, useLocalStorage } from '../common/webStorage';
 import { clustervulnerabilityreportClass, vulnerabilityreportClass } from '../model';
 import { VulnerabilityReport } from '../types/VulnerabilityReport';
 import ImageListView from './ImageList';
@@ -21,10 +21,7 @@ export function VulnerabilityList() {
   const [vulnerabilityReportObjects, setVulnerabilityReportObjects] = useState<KubeObject>(null);
   const [clusterVulnerabilityReportObjects, setClusterVulnerabilityReportObjects] =
     useState<KubeObject[]>(null);
-  const [selectedTab, setSelectedTab] = useSessionStorage<number>(
-    TrivySessionSettings.VulnerabilityTab,
-    0
-  );
+  const [selectedTab, setSelectedTab] = useLocalStorage<number>(TrivySettings.VulnerabilityTab, 0);
 
   vulnerabilityreportClass.useApiList(setVulnerabilityReportObjects);
   clustervulnerabilityreportClass.useApiList(setClusterVulnerabilityReportObjects);

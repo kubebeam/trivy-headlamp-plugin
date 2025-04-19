@@ -1,5 +1,5 @@
 import { Tabs as HeadlampTabs } from '@kinvolk/headlamp-plugin/lib/CommonComponents';
-import { TrivySessionSettings, useSessionStorage } from '../common/sessionStorage';
+import { TrivySettings, useLocalStorage } from '../common/webStorage';
 import { ClusterComplianceReportList } from './ClusterComplianceList';
 import { ConfigAuditReportList } from './ConfigAuditList';
 import { ExposedSecretList } from './ExposedSecretList';
@@ -7,10 +7,7 @@ import { InfraAssessmentReportList } from './InfraAssessmentList';
 import { RbacAssessmentReportList } from './RbacAssessmentList';
 
 export function Compliance() {
-  const [selectedTab, setSelectedTab] = useSessionStorage<number>(
-    TrivySessionSettings.ComplianceTab,
-    0
-  );
+  const [selectedTab, setSelectedTab] = useLocalStorage<number>(TrivySettings.ComplianceTab, 0);
   return (
     <>
       <h1>Compliance</h1>

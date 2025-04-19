@@ -6,8 +6,8 @@ import {
 import { KubeObject } from '@kinvolk/headlamp-plugin/lib/lib/k8s/cluster';
 import { FormControlLabel, Switch } from '@mui/material';
 import { useState } from 'react';
-import { TrivySessionSettings, useSessionStorage } from '../common/sessionStorage';
 import { getURLSegments } from '../common/url';
+import { TrivySettings, useLocalStorage } from '../common/webStorage';
 import { clusterinfraassessmentreportClass, infraassessmentreportClass } from '../model';
 import { InfraAssessmentReport } from '../types/InfraAssessmentReport';
 
@@ -49,8 +49,8 @@ export function InfraAssessmentDetails() {
 
 function Results(props: { infraAssessmentReport: InfraAssessmentReport }) {
   const { infraAssessmentReport } = props;
-  const [isFailedControlSwitchChecked, setIsFailedControlSwitchChecked] = useSessionStorage(
-    TrivySessionSettings.FailedControls,
+  const [isFailedControlSwitchChecked, setIsFailedControlSwitchChecked] = useLocalStorage(
+    TrivySettings.FailedControls,
     true
   );
   const checks = isFailedControlSwitchChecked

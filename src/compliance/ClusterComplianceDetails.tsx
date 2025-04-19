@@ -7,8 +7,8 @@ import {
 import { KubeObject } from '@kinvolk/headlamp-plugin/lib/lib/k8s/cluster';
 import { FormControlLabel, Switch } from '@mui/material';
 import { useState } from 'react';
-import { TrivySessionSettings, useSessionStorage } from '../common/sessionStorage';
 import { getURLSegments } from '../common/url';
+import { TrivySettings, useLocalStorage } from '../common/webStorage';
 import { RoutingPath } from '../index';
 import { clustercompliancereportClass } from '../model';
 import { ClusterComplianceReport } from '../types/ClusterComplianceReport';
@@ -63,8 +63,8 @@ export function ClusterComplianceDetails() {
 
 function Results(props: Readonly<{ clusterComplianceReport: ClusterComplianceReport }>) {
   const { clusterComplianceReport } = props;
-  const [isFailedControlSwitchChecked, setIsFailedControlSwitchChecked] = useSessionStorage(
-    TrivySessionSettings.FailedControls,
+  const [isFailedControlSwitchChecked, setIsFailedControlSwitchChecked] = useLocalStorage(
+    TrivySettings.FailedControls,
     true
   );
   const controls = isFailedControlSwitchChecked

@@ -53,6 +53,14 @@ jobs:
           value: '${{ github.event.inputs.releaseName }}'
           commitChange: false
 
+      - name: Update headlamp-helm-values
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: examples/headlamp-helm-values.yaml
+          propertyPath: initContainers[0].image
+          value: ghcr.io/${{ github.repository }}:${{ github.event.inputs.releaseName }}
+          commitChange: false
+
       - name: create-archive
         run: |
           mkdir -p trivy-plugin
@@ -82,6 +90,7 @@ jobs:
           add: |
             - artifacthub-pkg.yml
             - package.json
+            - examples/headlamp-helm-values.yaml
 
       - name: Create Release Draft
         uses: softprops/action-gh-release@v2
