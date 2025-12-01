@@ -42,7 +42,6 @@ import { Compliance } from './compliance/Compliance';
 
 registerRoute({
   path: RoutingPath.Compliance,
-  parent: 'trivy',
   sidebar: 'trivy-compliance',
   component: () => <Compliance />,
   exact: true,
@@ -53,7 +52,6 @@ import { ClusterComplianceDetails } from './compliance/ClusterComplianceDetails'
 
 registerRoute({
   path: RoutingPath.ClusterComplianceReportDetail,
-  parent: 'trivy',
   sidebar: 'trivy-compliance',
   component: () => <ClusterComplianceDetails />,
   exact: true,
@@ -64,7 +62,6 @@ import { ControlResults } from './compliance/ControlResults';
 
 registerRoute({
   path: RoutingPath.ControlResults,
-  parent: 'trivy',
   sidebar: 'trivy-compliance',
   component: () => <ControlResults />,
   exact: true,
@@ -75,7 +72,6 @@ import { InfraAssessmentDetails } from './compliance/InfraAssessmentDetails';
 
 registerRoute({
   path: RoutingPath.InfraAssessmentReportDetail,
-  parent: 'trivy',
   sidebar: 'trivy-compliance',
   component: () => <InfraAssessmentDetails />,
   exact: true,
@@ -86,7 +82,6 @@ import { RbacAssessmentDetails } from './compliance/RbacAssessmentDetails';
 
 registerRoute({
   path: RoutingPath.RbacAssessmentReportDetail,
-  parent: 'trivy',
   sidebar: 'trivy-compliance',
   component: () => <RbacAssessmentDetails />,
   exact: true,
@@ -97,7 +92,6 @@ import { ConfigAuditReportDetails } from './compliance/ConfigAuditDetails';
 
 registerRoute({
   path: RoutingPath.ConfigAuditReportDetail,
-  parent: 'trivy',
   sidebar: 'trivy-compliance',
   component: () => <ConfigAuditReportDetails />,
   exact: true,
@@ -108,7 +102,6 @@ import { ExposedSecretDetails } from './compliance/ExposedSecretDetails';
 
 registerRoute({
   path: RoutingPath.ExposedSecretDetails,
-  parent: 'trivy',
   sidebar: 'trivy-compliance',
   component: () => <ExposedSecretDetails />,
   exact: true,
@@ -119,7 +112,6 @@ import { VulnerabilityList } from './vulnerabilities/Vulnerabilities';
 
 registerRoute({
   path: '/trivy/vulnerabilities',
-  parent: 'trivy',
   sidebar: 'trivy-vulnerabilities',
   component: () => <VulnerabilityList />,
   exact: true,
@@ -130,7 +122,6 @@ import { VulnerabilityReportDetails } from './vulnerabilities/WorkloadDetails';
 
 registerRoute({
   path: RoutingPath.TrivyVulnerabilityReportDetails,
-  parent: 'trivy',
   sidebar: 'trivy-vulnerabilities',
   component: () => <VulnerabilityReportDetails />,
   exact: true,
@@ -141,7 +132,6 @@ import { SbomReportDetails } from './vulnerabilities/SBOMDetails';
 
 registerRoute({
   path: RoutingPath.SbomReportDetail,
-  parent: 'trivy',
   sidebar: 'trivy-vulnerabilities',
   component: () => <SbomReportDetails />,
   exact: true,
