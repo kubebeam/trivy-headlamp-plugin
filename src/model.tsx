@@ -1,4 +1,4 @@
-import { makeCustomResourceClass } from '@kinvolk/headlamp-plugin/lib/lib/k8s/crd';
+import { makeCustomResourceClass } from '@kinvolk/headlamp-plugin/lib/k8s/crd';
 
 const apiAquaGroupVersion = [{ group: 'aquasecurity.github.io', version: 'v1alpha1' }];
 
@@ -7,6 +7,8 @@ export const clustercompliancereportClass = makeCustomResourceClass({
   isNamespaced: false,
   singularName: 'clustercompliancereport',
   pluralName: 'clustercompliancereports',
+  kind: 'ClusterComplianceReport',
+  customResourceDefinition: undefined as any,
 });
 
 export const clusterconfigauditreportClass = makeCustomResourceClass({
@@ -14,6 +16,8 @@ export const clusterconfigauditreportClass = makeCustomResourceClass({
   isNamespaced: false,
   singularName: 'clusterconfigauditreport',
   pluralName: 'clusterconfigauditreports',
+  kind: 'ClusterConfigAuditReport',
+  customResourceDefinition: undefined as any,
 });
 
 export const clusterinfraassessmentreportClass = makeCustomResourceClass({
@@ -21,6 +25,8 @@ export const clusterinfraassessmentreportClass = makeCustomResourceClass({
   isNamespaced: false,
   singularName: 'clusterinfraassessmentreport',
   pluralName: 'clusterinfraassessmentreports',
+  kind: 'ClusterInfraAssessmentReport',
+  customResourceDefinition: undefined as any,
 });
 
 export const clusterrbacassessmentreportClass = makeCustomResourceClass({
@@ -28,6 +34,8 @@ export const clusterrbacassessmentreportClass = makeCustomResourceClass({
   isNamespaced: false,
   singularName: 'clusterrbacassessmentreport',
   pluralName: 'clusterrbacassessmentreports',
+  kind: 'ClusterRbacAssessmentReport',
+  customResourceDefinition: undefined as any,
 });
 
 export const clustersbomreportClass = makeCustomResourceClass({
@@ -35,6 +43,8 @@ export const clustersbomreportClass = makeCustomResourceClass({
   isNamespaced: false,
   singularName: 'clustersbomreport',
   pluralName: 'clustersbomreports',
+  kind: 'ClusterSbomReport',
+  customResourceDefinition: undefined as any,
 });
 
 export const clustervulnerabilityreportClass = makeCustomResourceClass({
@@ -42,6 +52,8 @@ export const clustervulnerabilityreportClass = makeCustomResourceClass({
   isNamespaced: false,
   singularName: 'clustervulnerabilityreport',
   pluralName: 'clustervulnerabilityreports',
+  kind: 'ClusterVulnerabilityReport',
+  customResourceDefinition: undefined as any,
 });
 
 export const configauditreportClass = makeCustomResourceClass({
@@ -49,6 +61,8 @@ export const configauditreportClass = makeCustomResourceClass({
   isNamespaced: true,
   singularName: 'configauditreport',
   pluralName: 'configauditreports',
+  kind: 'ConfigAuditReport',
+  customResourceDefinition: undefined as any,
 });
 
 export const exposedsecretreportClass = makeCustomResourceClass({
@@ -56,6 +70,8 @@ export const exposedsecretreportClass = makeCustomResourceClass({
   isNamespaced: true,
   singularName: 'exposedsecretreport',
   pluralName: 'exposedsecretreports',
+  kind: 'ExposedSecretReport',
+  customResourceDefinition: undefined as any,
 });
 
 export const infraassessmentreportClass = makeCustomResourceClass({
@@ -63,6 +79,8 @@ export const infraassessmentreportClass = makeCustomResourceClass({
   isNamespaced: true,
   singularName: 'infraassessmentreport',
   pluralName: 'infraassessmentreports',
+  kind: 'InfraAssessmentReport',
+  customResourceDefinition: undefined as any,
 });
 
 export const rbacassessmentreportClass = makeCustomResourceClass({
@@ -70,6 +88,8 @@ export const rbacassessmentreportClass = makeCustomResourceClass({
   isNamespaced: true,
   singularName: 'rbacassessmentreport',
   pluralName: 'rbacassessmentreports',
+  kind: 'RbacAssessmentReport',
+  customResourceDefinition: undefined as any,
 });
 
 export const sbomreportClass = makeCustomResourceClass({
@@ -77,6 +97,8 @@ export const sbomreportClass = makeCustomResourceClass({
   isNamespaced: true,
   singularName: 'sbomreport',
   pluralName: 'sbomreports',
+  kind: 'SbomReport',
+  customResourceDefinition: undefined as any,
 });
 
 export const vulnerabilityreportClass = makeCustomResourceClass({
@@ -84,4 +106,6 @@ export const vulnerabilityreportClass = makeCustomResourceClass({
   isNamespaced: true,
   singularName: 'vulnerabilityreport',
   pluralName: 'vulnerabilityreports',
+  kind: 'VulnerabilityReport',
+  customResourceDefinition: undefined as any,
 });

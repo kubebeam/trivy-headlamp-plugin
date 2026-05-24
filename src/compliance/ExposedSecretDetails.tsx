@@ -75,7 +75,7 @@ function Secrets(props: Readonly<{ exposedSecretReport: ExposedSecretReport }>) 
   const { exposedSecretReport } = props;
 
   return (
-    <SectionBox title="Secrets" backlink>
+    <SectionBox title="Secrets" backLink>
       <HeadlampTable
         data={exposedSecretReport.report.secrets}
         columns={[
