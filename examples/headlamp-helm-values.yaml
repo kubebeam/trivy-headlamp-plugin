@@ -5,7 +5,7 @@ initContainers:
       - /bin/sh
       - '-c'
       - mkdir -p /build/plugins && cp -r /plugins/* /build/plugins/
-    image: ghcr.io/kubebeam/trivy-headlamp-plugin:v0.3.1
+    image: ghcr.io/kubebeam/trivy-headlamp-plugin:v0.3.2
     name: trivy-plugin
     volumeMounts:
       - mountPath: /build/plugins
